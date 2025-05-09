@@ -767,8 +767,8 @@
 #for i in recipe-types.map(it => [
   = #it;s
   #for j in all-recipes.filter(itt => itt.recipe-type == it) {
-    if j.image != none {j.image}
-    j.content 
+    j.image
+    j.content
   }
 ]) { i }
 
