@@ -13,9 +13,6 @@
   height: 550pt * 1.2,
   columns: 2,
 )
- 
-
-// #show regex("\d"): it => type(it)
 
 // small content functions and variables
 #let group-num = "A"
@@ -685,6 +682,7 @@
     "main",
     "french onion pasta",
     adapted-from: "Apr 25 p18",
+    is-vegetarian: true,
     image-path: "imgs/french-onion-pasta.png",
     (
       1,
