@@ -6,21 +6,24 @@
 )
 #set page(
   margin: 0.5cm,
-  numbering: "1",
+  numbering: (..n) => [*#numbering("1", n.at(0))*],
   number-align: center,
   footer-descent: -10pt,
   width: 450pt * 1.2,
   height: 550pt * 1.2,
   columns: 2,
 )
+ 
+
+// #show regex("\d"): it => type(it)
 
 // small content functions and variables
 #let group-num = "A"
 #let group-divide-color = maroon
 #let u(txt) = text(weight: "black", txt)
 #let i(txt) = text(eastern, weight: "black", txt)
-#let g(num, p: true) = [#if p [(];group *#text(group-divide-color, numbering(group-num, num))*#if p [)]]
-#let gg(num) = g(num, p: false)
+#let gg(num, p: true) = [#if p [(];group *#text(group-divide-color, numbering(group-num, num))*#if p [)]]
+#let g(num) = gg(num, p: false)
 #let status(txt, supp: "") = text(luma(70%))[#v(0cm) #align(right)[_#supp #txt;_]]
 #let colors = (
   "#D88C9A",
@@ -89,7 +92,8 @@
 }
 
 // recipe function
-#let recipe-types = ("side", "main", "treat")
+#let recipe-types = ("outline", "side", "main", "treat")
+#let recipe-type-symbols = ("icons/hat.svg", "icons/pin.svg", "icons/dish.svg", "icons/toaster.svg")
 #let recipe(
   recipe-type,
   title,
@@ -97,16 +101,22 @@
   description,
   is-vegan: false,
   is-vegetarian: false,
+  is-colbreak: true,
   adapted-from: none,
   bon-appetit: true,
+  image-path: none,
+  image-height: 100%, 
 ) = {
   assert(recipe-type in recipe-types, message: "bad recipe type >:(")
   let dietary-type = if is-vegan { "vegan" } else if is-vegetarian { "vegetarian" } else { none }
   return (
     recipe-type: recipe-type,
     title: title,
+    image: if image-path != none {image(image-path, width: 100%, height: image-height)},
     content: [
-      #show heading: title => align(center, underline(text(15pt, title), offset: 7pt, extent: -9pt))
+      #if image-height != 100% { v(0.3cm) }
+      #block(width:100%)[
+        #show heading: title => align(center, underline(text(15pt, title), offset: 7pt, extent: -9pt))
       == #title
       #if dietary-type != none {
         place(
@@ -119,13 +129,15 @@
           ),
         )
       }
+      ] #label(title)
       #v(0.2cm)
       #if adapted-from != none { status(adapted-from, supp: "adapted from" + if bon-appetit { " Bon Appétit" }) }
       #v(0.2cm)
-      #ingredient-table(ingredients)
+      #align(center,ingredient-table(ingredients))
       #v(0.3cm)
       #description
-      #colbreak()
+      #v(0.5cm)
+      #if is-colbreak {colbreak()} else {line(length: 100%); v(0.3cm);}
     ],
   )
 }
@@ -138,19 +150,36 @@
     .location()
   let child-heading-selector = selector(heading).after(here()).before(next-section-location, inclusive: false)
   let heading-count = category-counter.get().first()
-  let page-color = rgb(colors.at(calc.rem(heading-count, colors.len())))
+  let style-indx = calc.rem(heading-count, colors.len())
+  let page-color = rgb(colors.at(style-indx))
+  let icon = read(recipe-type-symbols.at(style-indx))
   {
     set page(
       fill: page-color.lighten(30%),
-      background: rect(width: 100% - 20pt, height: 100% - 20pt, stroke: page-color.saturate(20%) + 5pt),
+      background: {
+        rect(width: 100% - 20pt, height: 100% - 20pt, stroke: page-color.saturate(20%) + 5pt)
+        place(center + horizon, dy: -80pt - 140pt * int(heading-count == 0), image(bytes(icon.replace("#4d4d4d", page-color.saturate(20%).to-hex())), width: 50% - 30% * int(heading-count == 0)))
+      },
       numbering: none,
       margin: 10%,
       columns: 1,
     )
     category-counter.step()
+    if heading-count == 0 {
+      let heading-color = rgb("#2E1F27")
+      v(4cm)
+      align(center, box(stroke: (paint: heading-color, thickness: 2pt), radius: 45pt, inset: 10pt, box(stroke: (paint: heading-color, thickness: 8pt), radius: 40pt, inset: 20pt)[
+        #text(heading-color, 50pt)[some recipes \ i like]
+        #line(stroke: heading-color, length: 30%)
+        #v(0.3cm)
+        #text(heading-color)[_compiled by miles_]
+      ]))
+      v(1fr)
+    }
+    set text(page-color.saturate(50%).darken(20%))
     v(2cm)
     text(22pt, align(center, [\- #h(0.5cm) #it.body #h(0.5cm) \-]))
-    v(1cm)
+    v(0.7cm)
     outline(
       title: none,
       target: if heading-count == 0 { selector(heading.where(level: 1)).after(here()) } else { child-heading-selector },
@@ -160,11 +189,128 @@
 }
 
 // all recipes
-#let all_recipes = (
+#let all-recipes = (
+  recipe(
+    "side",
+    "sushi rice",
+    is-vegan: true,
+    is-colbreak: false,
+    (
+      ([2 cup], [dry white rice]),
+      ([3 cup], [water]),
+      2,
+      ([#half cup], [rice vinegar]),
+      ([1 Tbsp], [cooking oil]),
+      ([#frac(1,4) cup], [white sugar]),
+      ([1 tsp], [salt]),
+    ),
+    [
+      Rinse #i[rice] under cold water in colander until it runs clear. Add to pan with #i[water], set to #u[medium-high]. Bring to boil, then reduce heat to #u[low]. Cover until water is absorbed, #u[\~20 mins].
+
+      Add #g(1) to sauce pan over #u[medium] heat until sugar dissolved. Add to cooked rice, mix until liquid is absorbed.
+    ],
+  ),
+  recipe(
+    "side",
+    "fried onions",
+    is-vegan: true,
+    image-path: "imgs/fried-onions.jpg",
+    image-height: 1fr,
+    (
+      ([3], [yellow onions], [cut into strips]),
+      ([2 Tbsp], [corn starch]),
+      ([1 cup], [frying oil])
+    ),
+    [
+      Heat #i[oil]. Mix #i[onions] in #i[corn starch] until well-coated. Fry in pot until golden and crispy.
+    ],
+  ),
+  recipe(
+    "side",
+    "tomato balsamic cheese bites",
+    is-colbreak: false,
+    is-vegetarian: true,
+    (
+      ([1], [french bread loaf], [sliced and toasted]),
+      ([1], [onion], [sliced and caramelized]),
+      ([3], [tomatoes], [#frac(1,4,inch:true) slices]),
+      1,
+      ([#half cup], [cream cheese]),
+      ([#half cup], [sour cream]),
+      ([1 tsp], [pepper]),
+      ([1], [garlic clove], [finely chopped]),
+      ([2], [green onions], [for chives]),
+      2,
+      ([1 Tbsp], [balsamic vinegar]),
+      ([1 Tbsp], [olive oil]),
+    ),
+    [
+      Whip #g(1) till light and fluffy.
+      Drizzle #i[tomato] slices with #g(2) and broil until tomatoes start to shrivel. Top #i[french bread] slices with prepared components.
+    ],
+  ),
+  recipe(
+    "side",
+    "eggnog",
+    is-vegetarian: true,
+    (
+      1,
+      ([2 cup], [milk]),
+      ([1 cup], [heavy cream]),
+      2,
+      ([6], [egg yolks]),
+      ([#half cup], [sugar]),
+      ([#half tsp], [salt]),
+      3,
+      ([1 tsp], [vanilla]),
+      ([#frac(1,4) tsp], [cinnamon]),
+      ([#frac(1,4) tsp], [nutmeg]),
+      ([#frac(1,4) tsp], [cloves]),
+    ),
+    [
+      Scald #g(1). Whisk #g(2) until whitened. Mix in scalded milk bit by bit. Reheat this mixture at a very low temperature, no boiling, until thickened. Mix in #g(3). Chill and serve.
+    ],
+  ),
+  recipe(
+    "side",
+    "boullion-baked tofu",
+    is-vegan: true,
+    image-path: "imgs/bouillon-baked-tofu.png",
+    image-height: 1fr,
+    adapted-from: "Nov 24 p32",
+    (
+      ([1], [firm tofu package], [(\~14oz) pressed, cubed, patted dry]),
+      1,
+      ([2 tsp], [vegetable boullion paste]),
+      ([#half tsp], [pepper]),
+      ([#half tsp], [garlic powder]),
+      ([#half tsp], [sugar]),
+      ([2 Tbsp], [olive oil]),
+      none,
+      ([1 Tbsp], [corn starch]),
+    ),
+    [
+      Mix #g(1) and toss with #i[tofu]. Cover and let sit at least #u[15 mins]. Prepare oven (middle rack, #u[400°F]). Lightly oil parchment paper on rimmed baking sheet.
+
+      Uncover #i[tofu] and sprinkle on #i[corn starch]. Toss to coat. Arrange tofu on prepared sheet, not touching each other. Bake until golden brown and crispy, #u[30-35 mins].
+    ],
+  ),
+  // recipe(
+  //   "side",
+  //   "title",
+  //   adapted-from: "May 25 p38",
+  //   (
+  //     ([1 lb], [ground pork], [wow]),
+  //   ),
+  //   [
+  //     description
+  //   ],
+  // ),
   recipe(
     "main",
     "pork and cucumber stir-fry",
     adapted-from: "May 25 p38",
+    image-path: "imgs/pork-and-cucumber-stir-fry.png",
     (
       ([1 lb], [ground pork]),
       ([2 cup], [dry rice], [cooked]),
@@ -188,11 +334,11 @@
     [
       Form #i[pork] into several patties, season lightly with salt. Set aside.
 
-      Toss #i[cucumber] with #i[salt] #g(1) in medium bowl. Let sit until cucumber starts releasing its water, about #u[10 mins]. While waiting, mix wets #g(2) to make sauce, set aside\*.
+      Toss #i[cucumber] with #i[salt] #gg(1) in medium bowl. Let sit until cucumber starts releasing its water, about #u[10 mins]. While waiting, mix wets #gg(2) to make sauce, set aside\*.
 
       Rinse, drain and pat dry #i[cucumber]. Heat #u[1 Tbsp] oil in large skillet at #u[medium-high] and cook, tossing frequently, until lightly browned. Remove and set aside.
 
-      Cook #i[pork] patties in skillet until deeply browned on both sides, about #u[5 mins] per side. Break up into bite-sized pieces and add seasonings #g(3), cook another #u[1-2 mins].
+      Cook #i[pork] patties in skillet until deeply browned on both sides, about #u[5 mins] per side. Break up into bite-sized pieces and add seasonings #gg(3), cook another #u[1-2 mins].
 
       Add #i[cucumber] and \*reserved sauce to skillet, cook #u[\~1 min]. Add cooked #i[rice] on top.
     ],
@@ -202,6 +348,7 @@
     "popover-topped pot pie",
     is-vegetarian: true,
     adapted-from: "May 25 p14",
+    image-path: "imgs/popover-topped-pot-pie.png",
     (
       ([12 oz], [golden potatoes], [#u(half-in) cubes]),
       1,
@@ -231,17 +378,18 @@
       ([#half tsp], [baking powder]),
     ),
     [
-      Heat #u[#frac(1, 4) cup] #i[olive oil] in Dutch oven on #u[medium]. Cook #i[potatoes] for #u[2 mins], stirring often. Add veggies #g(1) and cook #u[15-18 mins]. Add #gg(2), stirring until homogenous. Add #gg(3) to pot while stirring. Simmer #u[\~1 min]. Take off heat, let sit withough stirring #u[20-60 mins].
+      Heat #u[#frac(1, 4) cup] #i[olive oil] in Dutch oven on #u[medium]. Cook #i[potatoes] for #u[2 mins], stirring often. Add veggies #gg(1) and cook #u[15-18 mins]. Add #g(2), stirring until homogenous. Add #g(3) to pot while stirring. Simmer #u[\~1 min]. Take off heat, let sit withough stirring #u[20-60 mins].
 
-      Prepare oven: middle rack, #u[425°]. Mix and briefly blend #gg(4) till smooth. Gently pour into pot. Bake until deep golden brown and puffed, #u[45-55 mins].
+      Prepare oven: middle rack, #u[425°F]. Mix and briefly blend #g(4) till smooth. Gently pour into pot. Bake until deep golden brown and puffed, #u[45-55 mins].
     ],
   ),
   recipe(
     "main",
     "oyakodon (parent and child)",
     adapted-from: "May 25 p18",
+    image-path: "imgs/oyakodon.png",
     (
-      ([1#frac(1, 4) lb], [chicken], [preferrably thighs]),
+      ([1#frac(1, 4) lb], [chicken], [(preferrably thighs, but breast ok)]),
       ([1#half], [dry rice], [cooked]),
       ([2 tsp], [Hondashi powder]),
       1,
@@ -254,7 +402,7 @@
       ([5], [eggs], [blended]),
     ),
     [
-      Mix #i[dashi] and #u[1#half cups] hot water in a skillet until dissolved. Add #gg(1) and immmer on #u[medium-high] until onion is slightly softened and liquid slightly reduced, #u[6-8 mins].
+      Mix #i[dashi] and #u[1#half cup] hot water in a skillet until dissolved. Add #g(1) and immmer on #u[medium-high] until onion is slightly softened and liquid slightly reduced, #u[6-8 mins].
 
       Add #i[chicken] and #i[pale green onion] to pan. Cook until chicken is not pink on the outside, for #u[2-3 mins].
 
@@ -268,6 +416,7 @@
     "cauliflower chowder",
     is-vegetarian: true,
     adapted-from: "May 25 p22",
+    image-path: "imgs/cauliflower-chowder.png",
     (
       ([3 Tbsp], [butter]),
       1,
@@ -291,17 +440,321 @@
       ([1], [green onion], [for chives]),
     ),
     [
-      Heat #u[3 Tbsp] #i[butter] in Dutch oven over #u[medium]. Add #gg(1) and cook until onion is translucent, #u[6-8 mins]. Sprinkle in #i[flower] and stir #u[1 min]. Add #gg(2) and #u[4 cups] water. Simmer until veggies are tender and liquid is slightly thickened, stirring occasionally, #u[20-25 mins].
+      Heat #u[3 Tbsp] #i[butter] in Dutch oven over #u[medium]. Add #g(1) and cook until onion is translucent, #u[6-8 mins]. Sprinkle in #i[flower] and stir #u[1 min]. Add #g(2) and #u[4 cup] water. Simmer until veggies are tender and liquid is slightly thickened, stirring occasionally, #u[20-25 mins].
 
-      Toss #gg(3) in a bowl. Set aside\*.
+      Toss #g(3) in a bowl. Set aside.
 
       Stir a few spoonfuls of soup in with #i[miso] separately, then stir into the pot.
 
-      Serve with \*prepared crackers and #i[chives].
+      Serve with prepared crackers and #i[chives].
+    ],
+  ),
+  recipe(
+    "main",
+    "miso-mayo chicken",
+    image-path: "imgs/miso-mayo-chicken.png",
+    adapted-from: "Nov 24 p12",
+    (
+      ([2 lb], [chicken breast], [patted dry]),
+      ([2 cup], [dry jasmine rice], [cooked]),
+      1,
+      ([1 Tbsp], [soy sauce]),
+      ([#half cup], [mayo]),
+      ([3 Tbsp], [white miso]),
+      2,
+      ([2], [leeks], [white and pale green parts only, sliced #frac(1,4,inch:true) thick]),
+      ([1 lb], [brussel sprouts], [trimmed, quartered lengthwise]),
+      3,
+      ([1 Tbsp], [rice vinegar]),
+      ([1 Tbsp], [white miso]),
+      ([#frac(1,4) cup], [mayo]),
+      none,
+      ([2 Tbsp], [rice vinegar]),
+      ([2 tsp], [sesame seeds]),
+    ),
+    [
+      Preheat oven to #u[425°F], rack in middle. Whisk #g(1), use to coat #i[chicken]. Arrange veggies #gg(2) on baking sheet with parchment paper, salt and drizzle #u[\~1 Tbsp] #i[oil]. Place #i[chicken] on top of veggies, roast #u[13-16 mins]. Meanwhile, mix #g(3) to create sauce for serving\*.
+
+      Leaving chicken in oven, turn on broil. Cook till veggies are tender with some charring and chicken is cooked through and well-browned, #u[9-12 mins].
+      
+      Cut chicken into strips, and add #u[2 Tbsp] #i[rice vinegar] to veggies if desired. Top rice with veggies, chicken, \*prepared sauce, and sesame seeds.
+    ],
+  ),
+  recipe(
+    "main",
+    "garlic coconut shrimp",
+    image-path: "imgs/garlic-coconut-shrimp.png",
+    adapted-from: "Sep 24 p18",
+    (
+      ([1 lb], [shrimp]),
+      ([1 cup], [dry rice], [cooked]),
+      1,
+      ([1 tsp], [turmeric]),
+      ([#half tsp], [salt]),
+      2,
+      ([6], [garlic cloves], [chopped]),
+      ([#frac(1,4) cup], [olive oil]),
+      none,
+      ([#half cup], [unsweetened coconut flakes]),
+      3,
+      ([#half tsp], [salt]),
+      ([1 tsp], [sugar]),
+      4,
+      ([#half lb], [green beans]),
+      ([#half Tbsp], [pepper flakes]),
+      none,
+      ([2 Tbsp], [rice vinegar]),
+      ([#half], [red onion]),
+    ),
+    [
+      Prepare #i[shrimp], removing tails unlike the barbarians that took the included picture. Pat dry and toss with #g(1). Set aside.
+
+      Cook #g(2) in pan #u[\~4 mins], until garlic is golden. Add #i[coconut], cook #u[\~2 mins]. Strain, separating oil and coconut. Add #g(3) to coconut.
+
+      Heat separated oil in large skillet at #u[medium]. Cook #g(4) with #i[shrimp] #u[\~2 mins]. Add #i[vinegar] and #u[3 Tbsp] water. Cook #u[\~2 mins], till shrimp done.
+
+      Top #i[rice] with #i[shrimp] and #i[green beans], #i[onion], and #i[coconut].
+    ],
+  ),
+  recipe(
+    "main",
+    "pho",
+    image-path: "imgs/pho.png",
+    adapted-from: "Feb 25 p24",
+    (
+      ([8 oz], [thin rice noodles], [soaked in water to soften, drained]),
+      ([1 Tbsp], [veggie oil]),
+      ([1], [yellow onion], [thinly sliced]),
+      ([1 lb], [ground beef]),
+      ([#half tsp], [salt]),
+      ([2 tsp], [Chinese five-spice powder]),
+      1,
+      ([5], [garlic cloves], [grated]),
+      ([2"], [ginger], [grated]),
+      ([1 Tbsp], [fish sauce]),
+      none,
+      ([32 oz], [low-sodium chicken broth]),
+      2,
+      ([1], [bean sprout package]),
+      ([1], [cilantro bunch]),
+      ([2], [jalapeño], [sliced]),
+      ([], [hoisin sauce]),
+      ([], [sriracha]),
+      ([], [lime]),
+    ),
+    [
+      Heat #u[1 Tbsp] cooking oil in Dutch oven at #u[medium-high]. Cook #i[onion] until it starts to soften, #u[2 mins]. Add #i[beef] and #i[salt] and cook until beef is partially browned, #u[2 mins]. Add #i[five-spice powder] and some #i[pepper], cook until beef is just cooked through, #i[3 mins]. Pour off and discard excess fat.
+
+      Add #g(1), cook #u[\~1 min]. Add #i[broth] and #u[4 cup] #i[water]. Increase heat to #u[high], bring to a boil. Add #i[noodles] until tender (might refer to package instructions). 
+      
+      Serve with items from #g(2).
+    ],
+  ),
+  recipe(
+    "main",
+    "pork and tomatillo udon",
+    image-path: "imgs/pork-and-tomatillo-udon.png",
+    adapted-from: "Feb 25 p84",
+    (
+      ([1 lb], [ground pork]),
+      ([1 lb], [cooked udon], [prepared per package instructions]),
+      ([3 Tbsp], [hoisin sauce]),
+      ([1#frac(1,4) cup], [tomatillo salsa]),
+      ([2 Tbsp], [butter]),
+      ([#frac(2,3) cup], [chopped cilantro]),
+      ([1], [radish], [thinly sliced]),
+    ),
+    [
+      Heat #u[1 Tbsp] #i[cooking oil] over #u[medium high] in large skillet.
+      
+      Add #i[pork], cook #u[3 mins]. 
+      
+      Add #i[hoisin sauce], cook #u[2 mins]. 
+      
+      Add #i[salsa], cook #u[1 min].
+
+      Add #i[butter] and #i[udon], cook #u[1 min].
+
+      Remove from heat and mix in #i[cilantro]. Decorate with #i[radish].
+    ],
+  ),
+  recipe(
+    "main",
+    "baked pasta and sausage",
+    adapted-from: "Feb 25 p48",
+    image-path: "imgs/baked-pasta-with-sausage.png",
+    (
+      ([12 oz], [spicy sausage], [cooked or uncooked]),
+      1,
+      ([10], [garlic cloves], [finely grated]),
+      ([4], [large basil sprigs], [chopped]),
+      ([56 oz], [canned crushed tomatoes]),
+      ([#half cup], [butter], [cut into pieces]),
+      ([#half Tbsp], [salt]),
+      ([1 tsp], [sugar]),
+      ([1 tsp], [red pepper flakes]),
+      none,
+      ([1 lb], [pasta], [like rigatoni]),
+      ([1 lb], [low-moisture mozzarella], [coarsely grated])
+    ),
+    [
+      Prepare oven: middle rack, #u[350°F]. In a 9$times$13" pan, combine #g(1) and bake uncovered for #u[45 mins]. If #i[sausage] is uncooked, add now, otherwise add after #u[30 mins].
+
+      Add #i[pasta], uncooked, with #u[1 cup] #i[water]. Lightly mix contents. Cover pan tightly with foil. Bake #u[23-27 mins].
+
+      Remove pan from oven, turn oven to broil. Remove foil, lightly mix contents. Top pasta with #i[mozzarella] and broil until cheese is golden brown in spots, #u[5-8 mins]. Keep a close eye as it can turn quickly.
+    ],
+  ),
+  recipe(
+    "main",
+    "baked sweet potato chaat",
+    adapted-from: "Nov 24 p14",
+    image-path: "imgs/sweet-potato-chaat.png",
+    is-vegetarian: true,
+    (
+      ([2-3 lb], [sweet potatoes]),
+      1,
+      ([1 lb], [dry chickpeas], [soaked, cooked, and patted dry]),
+      ([1#half Tbsp], [cumin]),
+      ([1#half Tbsp], [chaat masala]),
+      ([#frac(1,4) cup], [olive oil]),
+      2,
+      ([1], [cilantro bunch]),
+      ([2], [jalapeño], [stem cut off]),
+      ([4-6], [green onions]),
+      ([#frac(1,4) cup], [lime juice]),
+      ([#frac(1,4) cup], [olive oil]),
+      3,
+      ([1-2], [serves fried onion], [_(see pg. #context locate(label("fried onions")).page())_]),
+      ([], [plain whole milk yogurt], [or sour cream]),
+      ([1], [red onion], [finely chopped]),
+      ([1], [pomegranate], [for seeds])
+
+    ),
+    [
+      Preheat oven to #u[450°F]. Cut #i[potatoes] in half if large. Prick all over with a fork. Run under water to dampen skin. Place on rimmed baking sheet with parchment paper. Drizzle olive oil and sprinkle salt, spread with hands to coat. Roast #u[30-35 mins].
+
+      In a bowl, mix #g(1). Add to potato sheet. Cook all for another #u[15-20 mins].
+
+      In a food processor, blend #g(2) till well mixed, but not puréed.
+
+      Serve in bowls by mixing and lightly mashing potatoes and chickpeas (or do it like the picture, I'm not your mom), then topping with blended sauce and elements of #g(3).
+    ],
+  ),
+  recipe(
+    "main",
+    "miso-tahini & tofu grain bowls",
+    adapted-from: "Apr 25 p20",
+    image-path: "imgs/tofu-grain-bowl.png",
+    is-vegan: true,
+    (
+      ([1], [firm tofu package], [(\~14oz) pressed, cubed, patted dry]),
+      1,
+      ([1#half cup], [dry brown rice], [rinsed until water runs clear]),
+      ([#half cup], [dry quinoa]),
+      2,
+      ([8 oz], [red cabbage], [thinly sliced]),
+      ([3 Tbsp], [rice vinegar]),
+      ([2 tsp], [honey]),
+      ([#half tsp], [salt]),
+      none,
+      ([1 Tbsp], [soy sauce]),
+      3,
+      ([2], [broccoli bunches], [cut into florets with long stems]),
+      ([1 tsp], [red pepper flakes]),
+      4,
+      ([3 cup], [miso]),
+      ([2 Tbsp], [tahini]),
+      ([#frac(3,4) tsp], [turmeric]),
+      ([2 tsp], [honey]),
+      ([2 Tbsp], [rice vinegar]),
+      none,
+      ([1], [avocado], [thinly sliced]),
+    ),
+    [
+      Preheat oven to #u[450°F]. Bring grains #gg(1) and #u[2#half cup] #i[water] to a boil in medium saucepan. Cover tightly with lid, reduce heat to #u[low]. Cook until grains are tender and liquid is absorbed, #u[40 mins]. Meanwhile, combine #g(2) in large bowl and vigorously massage with hands. Set aside for serving. 
+
+      Arrange #i[tofu] on rimmed baking sheet, drizzle with #i[soy sauce] and #u[3 Tbsp] #i[olive oil]. Roast until lightly browned, #u[9-11 mins]. Combine #g(3) and roast alongside tofu until starting to char, #u[15-20 mins].
+
+      Whisk #g(4) to make sauce for serving.
+
+      Assemble bowls with components and serve.
+    ],
+  ),
+  recipe(
+    "main",
+    "french onion pasta",
+    adapted-from: "Apr 25 p18",
+    image-path: "imgs/french-onion-pasta.png",
+    (
+      1,
+      ([4], [yellow onions], [thinly sliced]),
+      ([1 tsp], [salt]),
+      ([1 tsp], [pepper]),
+      2,
+      ([6], [garlic cloves]),
+      ([4 tsp], [chopped thyme]),
+      none,
+      ([#frac(3,4) cup], [dry white wine]),
+      ([1 lb], [shell pasta], [like lumache]),
+      3,
+      ([1 oz], [Parmesian], [finely grated]),
+      ([5 Tbsp], [butter]),
+      ([1 Tbsp], [Dijon mustard]),
+      ([2 tsp], [sugar]),
+      ([2 tsp], [Worcesterchire sauce]),
+      none,
+      ([8-12 oz], [Gruyère or White Cheddar], [coarsely grated]),
+    ),
+    [
+      Heat #u[3 Tbsp] #i[olive oil] in Dutch oven over #u[medium-high]. Add #g(1) and cook, stirring occasionally and adding #u[1 Tbsp] #i[water] at a time if onions are sticking and burning. Continue until onions are deep brown and jammy, #u[30-35 mins].
+
+      Add #g(2) to pan, stirring often, cooking #u[1 min]. Add #i[wine] and cook, stirring occasionally, until reduced by half, #u[\~3 mins]. Add #u[5#half cup] #i[water] and bring to a simmer. Add #i[pasta] and cook, stirring often to prevent pasta from sticking, until pasta is al dente, almost all liquid is absorbed besides a thick sauce, #u[10-14 mins].
+
+      Remove pan from heat and add #g(3), stirring until Parmesan is melted.
+
+      Place rack in upper third of oven and turn on broil. Scatter #i[cheese] over pasta and broil until melted and golden brown, #u[2-5 mins], watching closely. Add #i[chives] for serving if desired.
     ],
   ),
   // recipe(
   //   "main",
+  //   "title",
+  //   adapted-from: "Apr 25 p18",
+  //   (
+  //     ([1 lb], [ground pork], [wow]),
+  //   ),
+  //   [
+  //     description
+  //   ],
+  // ),
+  recipe(
+    "treat",
+    "earl grey sugar cookies",
+    image-path: "imgs/earl-grey-cookies.png",
+    image-height: 1fr,
+    (
+      1,
+      ([#half cup], [butter], [melted]),
+      ([2 Tbsp], [earl grey tea leaves], [chopped if neccessary]),
+      2,
+      ([#half cup], [sugar]),
+      ([#frac(1,4) cup], [brown sugar]),
+      ([1], [egg]),
+      ([1 Tbsp], [vanilla]),
+      4,
+      ([1#half cup], [flour]),
+      ([#half tsp], [baking powder]),
+      ([#half tsp], [baking soda]),
+      ([#half tsp], [salt]),
+    ),
+    [
+      Mix #g(1). Add #g(2), mixing until smooth. Add dries #gg(3) and mix until no dry spots remain. Refrigerate dough for at least #u[30 mins].
+
+      Preheat oven to #u[325°F]. Roll balls of dough in sugar. Place on sheet with parchment paper. Cookies will spread, leave room between them. Cook #u[12-15 mins], until edges are darkened and set. Allow to sheet cool before serving.
+    ],
+  ),
+  // recipe(
+  //   "treat",
   //   "title",
   //   adapted-from: "May 25 p38",
   //   (
@@ -313,11 +766,12 @@
   // ),
 )
 
-= outline
-
 #for i in recipe-types.map(it => [
   = #it;s
-  #for j in all_recipes.filter(itt => itt.recipe-type == it) { j.content }
+  #for j in all-recipes.filter(itt => itt.recipe-type == it) {
+    if j.image != none {j.image}
+    j.content 
+  }
 ]) { i }
 
-<end>
+#box()<end>
