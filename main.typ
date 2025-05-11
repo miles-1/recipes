@@ -15,6 +15,7 @@
 )
 
 // small content functions and variables
+#let mult = super[‡]
 #let group-num = "A"
 #let group-divide-color = maroon
 #let u(txt) = text(weight: "black", txt)
@@ -49,6 +50,23 @@
 ]
 #let half = frac(1, 2)
 #let half-in = frac(1, 2, inch: true)
+#let dietary-symbol(dietary-type) = {
+  if dietary-type in ("gf", "mgf") {
+    rotate(-45deg, square(
+      fill: blue.desaturate(30%),
+      size: 12pt,
+      inset: 0pt,
+      [#set align(center + horizon); #rotate(45deg, text(if dietary-type == "gf" {7pt} else {5pt}, white)[#upper(dietary-type)])],
+    ))
+  } else {
+    circle(
+      radius: 7pt,
+      inset: 0pt,
+      fill: green.darken(10%).desaturate(50%),
+      text(7pt, white)[#set align(center + horizon); #if dietary-type == "vegan" [V#h(1pt);V] else [V] ],
+    )
+  }
+}
 
 // ingredients list functions
 #let group-counter = counter("ingredients-group")
@@ -75,6 +93,7 @@
   )
 }
 #let ingredient-table(ingredients-array) = {
+  if ingredients-array.len() == 0 {return}
   group-counter.update(0)
   block(
     inset: (left: 25pt, right: 5pt),
@@ -89,8 +108,8 @@
 }
 
 // recipe function
-#let recipe-types = ("outline", "side", "main", "treat")
-#let recipe-type-symbols = ("icons/hat.svg", "icons/pin.svg", "icons/dish.svg", "icons/toaster.svg")
+#let recipe-types = ("outline", "note", "side", "main", "treat")
+#let recipe-type-symbols = ("icons/hat.svg", "icons/shakers.svg", "icons/pin.svg", "icons/dish.svg", "icons/toaster.svg")
 #let recipe(
   recipe-type,
   title,
@@ -98,6 +117,8 @@
   description,
   is-vegan: false,
   is-vegetarian: false,
+  is-gf: false,
+  is-mgf: false,
   is-colbreak: true,
   adapted-from: none,
   bon-appetit: true,
@@ -105,7 +126,8 @@
   image-height: 100%, 
 ) = {
   assert(recipe-type in recipe-types, message: "bad recipe type >:(")
-  let dietary-type = if is-vegan { "vegan" } else if is-vegetarian { "vegetarian" } else { none }
+  let meat-dietary-type = if is-vegan { "vegan" } else if is-vegetarian { "vegetarian" } else { none }
+  let gluten-freeable = if is-gf {"gf"} else if is-mgf {"mgf"} else {none}
   return (
     recipe-type: recipe-type,
     title: title,
@@ -115,15 +137,16 @@
       #block(width:100%)[
         #show heading: title => align(center, underline(text(15pt, title), offset: 7pt, extent: -9pt))
       == #title
-      #if dietary-type != none {
+      #if meat-dietary-type != none {
         place(
           top + right,
-          circle(
-            radius: 7pt,
-            inset: 0pt,
-            fill: green.darken(10%).desaturate(50%),
-            text(7pt, white)[#set align(center + horizon); #if dietary-type == "vegan" { [V#h(1pt);V] } else { [V] }],
-          ),
+          dietary-symbol(meat-dietary-type),
+        )
+      }
+      #if gluten-freeable != none {
+        place(
+          top + left,
+          dietary-symbol(gluten-freeable),
         )
       }
       ] #label(title)
@@ -188,9 +211,48 @@
 // all recipes
 #let all-recipes = (
   recipe(
+    "note",
+    "how to use this book",
+    (),
+    [
+      This cookbook is a compilation of recipes I have enjoyed from various sources, but mostly the Bon Appétit magazine. Many are modified to my liking, since the folks at Bon Appétit get ratios off sometimes (e.g., no recipe in this world needs a fourth cup of dill, not even pot pie [pg. #context locate(label("popover-topped pot pie")).page()]).
+      
+      Since many recipes are largely about ingredient preparation and assembly, most of the instructions are described in the ingredient list itself. Note the *instructions next to each ingredient* and the *labeled groups* that some ingredients are ordered in. To prioritize the cooking experience over ingredient collection, some ingredients are *listed multiple times* (indicated by a #mult symbol).
+
+      Different recipe dietary types are marked next to recipe titles as follows:
+
+      #align(center, table(
+        columns:2,
+        align: (x,y) => if x==0 {center + horizon} else {left + horizon},
+        stroke: none,
+        dietary-symbol("gf"), [gluten-free],
+        dietary-symbol("mgf"), [can be modified to be gluten-free],
+        dietary-symbol("vegetarian"), [vegetarian],
+        dietary-symbol("vegan"), [vegan]
+      ))
+
+      I assume you have basic ingredients handy (e.g., common spices, flour, cooking oils, and other American cooking staples). You might also benefit from having a few other frequently-used ingredients on hand: #i[rice vinegar], #i[hoisin sauce], #i[miso], #i[tahini], and #i[dry white wine].
+
+      Hope you enjoy!
+      
+      Love you (probably, idk who you are),
+
+      #align(right)[_Miles_#h(1cm)]
+    ],
+  ),
+  // recipe(
+  //   "note",
+  //   "title",
+  //   (),
+  //   [
+  //     description
+  //   ],
+  // ),
+  recipe(
     "side",
     "sushi rice",
     is-vegan: true,
+    is-gf: true,
     is-colbreak: false,
     (
       ([2 cup], [dry white rice]),
@@ -211,6 +273,7 @@
     "side",
     "fried onions",
     is-vegan: true,
+    is-gf: true,
     image-path: "imgs/fried-onions.jpg",
     image-height: 1fr,
     (
@@ -250,6 +313,7 @@
     "side",
     "eggnog",
     is-vegetarian: true,
+    is-gf: true,
     (
       1,
       ([2 cup], [milk]),
@@ -272,6 +336,7 @@
     "side",
     "boullion-baked tofu",
     is-vegan: true,
+    is-gf: true,
     image-path: "imgs/bouillon-baked-tofu.png",
     image-height: 1fr,
     adapted-from: "Nov 24 p32",
@@ -307,16 +372,13 @@
     "main",
     "pork and cucumber stir-fry",
     adapted-from: "May 25 p38",
+    is-mgf: true,
     image-path: "imgs/pork-and-cucumber-stir-fry.png",
     (
       ([1 lb], [ground pork]),
       ([2 cup], [dry rice], [cooked]),
       1,
-      (
-        [3],
-        [cucumbers],
-        [zebra-peeled, halved lengthwise, seeds removed, sliced diagonally #u[#half-in] thick],
-      ),
+      ([3], [cucumbers], [zebra-peeled, halved lengthwise, seeds removed, sliced diagonally #u[#half-in] thick]),
       ([1 tsp], [salt]),
       2,
       ([3 Tbsp], [oyster sauce]),
@@ -344,6 +406,7 @@
     "main",
     "popover-topped pot pie",
     is-vegetarian: true,
+    is-mgf: true,
     adapted-from: "May 25 p14",
     image-path: "imgs/popover-topped-pot-pie.png",
     (
@@ -356,7 +419,7 @@
       ([1 cup], [frozen peas]),
       2,
       ([6], [garlic cloves], [grated]),
-      ([#frac(1, 4) cup], [flour]),
+      ([#frac(1, 4) cup], [flour#mult]),
       3,
       ([2 cup], [vegetable broth]),
       ([#half cup], [dry white wine]),
@@ -365,11 +428,11 @@
       ([3 Tbsp], [dill], [(save some for topping)]),
       ([1 tsp], [pepper]),
       ([1#half tsp], [lemon zest]),
-      ([1#half tsp], [salt]),
+      ([1#half tsp], [salt#mult]),
       4,
       ([5], [eggs], [blended till fluffy]),
-      ([#half tsp], [salt]),
-      ([1#frac(1, 4) cup], [flour]),
+      ([#half tsp], [salt#mult]),
+      ([1#frac(1, 4) cup], [flour#mult]),
       ([1 oz], [Parmesan], [grated]),
       ([1#frac(1, 3) cup], [whole milk]),
       ([#half tsp], [baking powder]),
@@ -384,6 +447,7 @@
     "main",
     "oyakodon (parent and child)",
     adapted-from: "May 25 p18",
+    is-mgf: true,
     image-path: "imgs/oyakodon.png",
     (
       ([1#frac(1, 4) lb], [chicken], [(preferrably thighs, but breast ok)]),
@@ -412,10 +476,11 @@
     "main",
     "cauliflower chowder",
     is-vegetarian: true,
+    is-mgf: true,
     adapted-from: "May 25 p22",
     image-path: "imgs/cauliflower-chowder.png",
     (
-      ([3 Tbsp], [butter]),
+      ([3 Tbsp], [butter#mult]),
       1,
       ([1], [yellow onion], [finely chopped]),
       ([4], [celery stocks], [thinly sliced]),
@@ -429,7 +494,7 @@
       ([10 oz], [golden potatoes], [cut into #u[#half-in] pieces]),
       ([1#half cup], [heavy cream], [chopped]),
       3,
-      ([2 Tbsp], [butter], [melted]),
+      ([2 Tbsp], [butter#mult], [melted]),
       ([3 cup], [crackers], [like oyster or Ritz, break up into smaller pieces if necessary]),
       ([2 tsp], [Old Bay seasoning]),
       none,
@@ -450,23 +515,24 @@
     "main",
     "miso-mayo chicken",
     image-path: "imgs/miso-mayo-chicken.png",
+    is-mgf: true,
     adapted-from: "Nov 24 p12",
     (
       ([2 lb], [chicken breast], [patted dry]),
       ([2 cup], [dry jasmine rice], [cooked]),
       1,
       ([1 Tbsp], [soy sauce]),
-      ([#half cup], [mayo]),
-      ([3 Tbsp], [white miso]),
+      ([#half cup], [mayo#mult]),
+      ([3 Tbsp], [white miso#mult]),
       2,
       ([2], [leeks], [white and pale green parts only, sliced #frac(1,4,inch:true) thick]),
       ([1 lb], [brussel sprouts], [trimmed, quartered lengthwise]),
       3,
-      ([1 Tbsp], [rice vinegar]),
-      ([1 Tbsp], [white miso]),
-      ([#frac(1,4) cup], [mayo]),
+      ([1 Tbsp], [rice vinegar#mult]),
+      ([1 Tbsp], [white miso#mult]),
+      ([#frac(1,4) cup], [mayo#mult]),
       none,
-      ([2 Tbsp], [rice vinegar]),
+      ([2 Tbsp], [rice vinegar#mult]),
       ([2 tsp], [sesame seeds]),
     ),
     [
@@ -480,6 +546,7 @@
   recipe(
     "main",
     "garlic coconut shrimp",
+    is-gf: true,
     image-path: "imgs/garlic-coconut-shrimp.png",
     adapted-from: "Sep 24 p18",
     (
@@ -487,14 +554,14 @@
       ([1 cup], [dry rice], [cooked]),
       1,
       ([1 tsp], [turmeric]),
-      ([#half tsp], [salt]),
+      ([#half tsp], [salt#mult]),
       2,
       ([6], [garlic cloves], [chopped]),
       ([#frac(1,4) cup], [olive oil]),
       none,
       ([#half cup], [unsweetened coconut flakes]),
       3,
-      ([#half tsp], [salt]),
+      ([#half tsp], [salt#mult]),
       ([1 tsp], [sugar]),
       4,
       ([#half lb], [green beans]),
@@ -516,6 +583,7 @@
   recipe(
     "main",
     "pho",
+    is-mgf: true,
     image-path: "imgs/pho.png",
     adapted-from: "Feb 25 p24",
     (
@@ -550,6 +618,7 @@
   recipe(
     "main",
     "pork and tomatillo udon",
+    is-mgf: true,
     image-path: "imgs/pork-and-tomatillo-udon.png",
     adapted-from: "Feb 25 p84",
     (
@@ -578,6 +647,7 @@
   recipe(
     "main",
     "baked pasta and sausage",
+    is-mgf: true,
     adapted-from: "Feb 25 p48",
     image-path: "imgs/baked-pasta-with-sausage.png",
     (
@@ -606,6 +676,7 @@
     "main",
     "baked sweet potato chaat",
     adapted-from: "Nov 24 p14",
+    is-mgf: true,
     image-path: "imgs/sweet-potato-chaat.png",
     is-vegetarian: true,
     (
@@ -614,13 +685,13 @@
       ([1 lb], [dry chickpeas], [soaked, cooked, and patted dry]),
       ([1#half Tbsp], [cumin]),
       ([1#half Tbsp], [chaat masala]),
-      ([#frac(1,4) cup], [olive oil]),
+      ([#frac(1,4) cup], [olive oil#mult]),
       2,
       ([1], [cilantro bunch]),
       ([2], [jalapeño], [stem cut off]),
       ([4-6], [green onions]),
       ([#frac(1,4) cup], [lime juice]),
-      ([#frac(1,4) cup], [olive oil]),
+      ([#frac(1,4) cup], [olive oil#mult]),
       3,
       ([1-2], [serves fried onion], [_(see pg. #context locate(label("fried onions")).page())_]),
       ([], [plain whole milk yogurt], [or sour cream]),
@@ -641,6 +712,7 @@
   recipe(
     "main",
     "miso-tahini & tofu grain bowls",
+    is-mgf: true,
     adapted-from: "Apr 25 p20",
     image-path: "imgs/tofu-grain-bowl.png",
     is-vegan: true,
@@ -651,8 +723,8 @@
       ([#half cup], [dry quinoa]),
       2,
       ([8 oz], [red cabbage], [thinly sliced]),
-      ([3 Tbsp], [rice vinegar]),
-      ([2 tsp], [honey]),
+      ([3 Tbsp], [rice vinegar#mult]),
+      ([2 tsp], [honey#mult]),
       ([#half tsp], [salt]),
       none,
       ([1 Tbsp], [soy sauce]),
@@ -663,8 +735,8 @@
       ([3 cup], [miso]),
       ([2 Tbsp], [tahini]),
       ([#frac(3,4) tsp], [turmeric]),
-      ([2 tsp], [honey]),
-      ([2 Tbsp], [rice vinegar]),
+      ([2 tsp], [honey#mult]),
+      ([2 Tbsp], [rice vinegar#mult]),
       none,
       ([1], [avocado], [thinly sliced]),
     ),
@@ -683,6 +755,7 @@
     "french onion pasta",
     adapted-from: "Apr 25 p18",
     is-vegetarian: true,
+    is-mgf: true,
     image-path: "imgs/french-onion-pasta.png",
     (
       1,
@@ -696,7 +769,7 @@
       ([#frac(3,4) cup], [dry white wine]),
       ([1 lb], [shell pasta], [like lumache]),
       3,
-      ([1 oz], [Parmesian], [finely grated]),
+      ([1 oz], [Parmesan], [finely grated]),
       ([5 Tbsp], [butter]),
       ([1 Tbsp], [Dijon mustard]),
       ([2 tsp], [sugar]),
@@ -712,6 +785,35 @@
       Remove pan from heat and add #g(3), stirring until Parmesan is melted.
 
       Place rack in upper third of oven and turn on broil. Scatter #i[cheese] over pasta and broil until melted and golden brown, #u[2-5 mins], watching closely. Add #i[chives] for serving if desired.
+    ],
+  ),
+  recipe(
+    "main",
+    "salmon and shiitake rice",
+    image-path: "imgs/salmon-shiitake-rice.png",
+    is-mgf: true,
+    adapted-from: "Aug 24 p14",
+    (
+      1,
+      ([1#half cup], [dry white or brown rice], [rinsed until water runs clear]),
+      ([#frac(1,3) cup], [quinoa]),
+      ([1 Tbsp], [sake]),
+      ([2 tsp], [soy sauce#mult]),
+      none,
+      ([5 oz], [shiitake mushrooms], [thinly sliced]),
+      ([1 lb], [skinless salmon fillets]),
+      2,
+      ([4 Tbsp], [rice vinegar]),
+      ([2 Tbsp], [sesame oil], [(preferrably toasted)]),
+      ([5 Tbsp], [soy sauce#mult]),
+      ([5], [green onions], [sliced])
+    ),
+    [
+      Gently stir #g(1) and #u[2 cups] #i[water] in a large pot with a lid. Gently place #i[mushrooms] then #i[salmon] in respective layers on top of rice. Lightly season with salt. Put pot over #u[medium-high], lid askew, until small bubbles start to form, then reduce to #u[medium] and cover tightly with lid. Cook undisturbed for #u[15 mins], then move off heat (do not remove lid) and let sit #u[20 mins].
+
+      Meanwhile, mix #g(2) to make a sauce.
+
+      Uncover rice lid, letting water from lid drip into pot. Gently fold contents, breaking up salmon. Transfer into bowls and serve with sauce.
     ],
   ),
   // recipe(
@@ -735,7 +837,7 @@
       ([#half cup], [butter], [melted]),
       ([2 Tbsp], [earl grey tea leaves], [chopped if neccessary]),
       2,
-      ([#half cup], [sugar]),
+      ([#half cup], [sugar], [(plus more for rolling)]),
       ([#frac(1,4) cup], [brown sugar]),
       ([1], [egg]),
       ([1 Tbsp], [vanilla]),
