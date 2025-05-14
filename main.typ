@@ -131,7 +131,7 @@
   return (
     recipe-type: recipe-type,
     title: title,
-    image: if image-path != none {image(image-path, width: 100%, height: image-height)},
+    image: if image-path != none {image(image-path, width: 100%, height: image-height)}, // standard size: 390x975
     content: [
       #if image-height != 100% { v(0.3cm) }
       #block(width:100%)[
@@ -814,6 +814,42 @@
       Meanwhile, mix #g(2) to make a sauce.
 
       Uncover rice lid, letting water from lid drip into pot. Gently fold contents, breaking up salmon. Transfer into bowls and serve with sauce.
+    ],
+  ),
+  recipe(
+    "main",
+    "samosa-dilla",
+    is-vegetarian: true,
+    image-path: "imgs/samosa-dilla.png",
+    adapted-from: "Aug 24 p18",
+    (
+      ([3 Tbsp], [veggie oil]),
+      1,
+      ([1 tsp], [cumin seeds], [or half as much powder]),
+      ([1 Tbsp], [curry powder]),
+      ([#half Tbsp], [ground ginger]),
+      ([2], [garlic cloves], [minced]),
+      2,
+      ([1], [small red onion], [diced]),
+      ([1], [jalapeño], [diced]),
+      none,
+      ([1 lb], [russet or golden potatoes], [peeled, cut into #half-in pieces]),
+      3,
+      ([1 cup], [cilantro], [leaves and soft stems only, coarsely chopped]),
+      ([1 cup], [frozen peas], [thawed a bit]),
+      ([1 Tbsp], [lime juice]),
+      none,
+      ([4], [8"-10" wheat tortillas]),
+      ([8 oz], [sharp white cheddar], [or pepper jack]),
+    ),
+    [
+      Add #i[veggie oil] to large pot with a lid over #u[medium] heat. Add #g(1) and stir about #u[1 min].
+
+      Add #g(2) and cook until onion is softened, #u[\~3 mins]. Add #i[potatoes] and #u[2#half cups] #i[water], bring to a simmer and cover. Continue until water is mostly absorbed by potatoes, #u[20-25 mins].
+
+      Remove from heat and stir in #g(3).
+
+      Cover half of each #i[tortilla] in #i[cheese], add a layer of filling, and another layer of cheese. Fold the tortilla over. Fry at #u[low-medium] heat on both sides with a thin layer of oil in pan until golden.
     ],
   ),
   // recipe(
