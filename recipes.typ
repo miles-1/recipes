@@ -51,7 +51,7 @@
 #let half = frac(1, 2)
 #let half-in = frac(1, 2, inch: true)
 #let dietary-symbol(dietary-type) = {
-  if dietary-type in ("gf", "mgf") {
+  if dietary-type in ("gf",) {
     rotate(-45deg, square(
       fill: blue.desaturate(30%),
       size: 12pt,
@@ -118,46 +118,50 @@
   is-vegan: false,
   is-vegetarian: false,
   is-gf: false,
-  is-mgf: false,
   is-colbreak: true,
   adapted-from: none,
   bon-appetit: true,
   image-path: none,
-  image-height: 100%, 
+  image-above: false,
+  image-below: false,
 ) = {
   assert(recipe-type in recipe-types, message: "bad recipe type >:(")
   let meat-dietary-type = if is-vegan { "vegan" } else if is-vegetarian { "vegetarian" } else { none }
-  let gluten-freeable = if is-gf {"gf"} else if is-mgf {"mgf"} else {none}
+  let gluten-freeable = if is-gf {"gf"} else {none}
+  // standard image size: 390x975
+  let recipe-image = if image-path != none {image(image-path, width: 100%, height: if image-above or image-below {1fr} else {100%})} else {none}
   return (
     recipe-type: recipe-type,
-    title: title,
-    image: if image-path != none {image(image-path, width: 100%, height: image-height)}, // standard size: 390x975
     content: [
-      #if image-height != 100% { v(0.3cm) }
+      #if recipe-image != none and not image-below {
+        recipe-image
+        if image-above {v(0.3cm)}
+      }
       #block(width:100%)[
         #show heading: title => align(center, underline(text(15pt, title), offset: 7pt, extent: -9pt))
-      == #title
-      #if meat-dietary-type != none {
-        place(
-          top + right,
-          dietary-symbol(meat-dietary-type),
-        )
-      }
-      #if gluten-freeable != none {
-        place(
-          top + left,
-          dietary-symbol(gluten-freeable),
-        )
-      }
+        == #title
+        #if meat-dietary-type != none {
+          place(
+            top + right,
+            dietary-symbol(meat-dietary-type),
+          )
+        }
+        #if gluten-freeable != none {
+          place(
+            top + left,
+            dietary-symbol(gluten-freeable),
+          )
+        }
       ] #label(title)
       #v(0.2cm)
-      #if adapted-from != none { status(adapted-from, supp: "adapted from" + if bon-appetit { " Bon Appétit" }) }
+      #if adapted-from != none {status(adapted-from, supp: "adapted from" + if bon-appetit { " Bon Appétit" })}
       #v(0.2cm)
       #align(center,ingredient-table(ingredients))
       #v(0.3cm)
       #description
       #v(0.5cm)
-      #if is-colbreak {colbreak()} else {line(length: 100%); v(0.3cm);}
+      #if recipe-image != none and image-below {recipe-image}
+      #if is-colbreak {colbreak()} else {line(length: 100%); v(0.3cm)}
     ],
   )
 }
@@ -226,7 +230,6 @@
         align: (x,y) => if x==0 {center + horizon} else {left + horizon},
         stroke: none,
         dietary-symbol("gf"), [gluten-free],
-        dietary-symbol("mgf"), [can be modified to be gluten-free],
         dietary-symbol("vegetarian"), [vegetarian],
         dietary-symbol("vegan"), [vegan]
       ))
@@ -238,6 +241,24 @@
       Love you (probably, idk who you are),
 
       #align(right)[_Miles_#h(1cm)]
+    ],
+  ),
+  recipe(
+    "note",
+    "taking care of cast iron",
+    (),
+    [
+      Cast iron cookware has a few unique benefits: it (1) is stovetop- and oven-safe, (2) heats more evenly, (3) lasts a really long time, and (4) resists sticking. A few important notes:
+
+      - *Buy real cast iron*. Some cheap cast iron cookware is not made of iron, and cannot be maintained well. There are many reliable companies to keep an eye out for, including Lodge, Field Company, and Lancaster.
+
+      - *Monitor the seasoning*. Seasoning is just several thin layers of polymerized oil (i.e., long, durable chains formed with oil molecules), which gives cast iron its dark color and stick resistance. Cast iron generally comes seasoned when purchased, but it can wear off over time.
+        - Cooking with oil in cast iron will build up some seasoning on its own.
+        - You might notice while scraping your cast iron that a brown substance seems to surface. It looks like surprise rust, but it is actually seasoning, which is dark brown.
+        - While scraping off food waste you may reveal a silver-looking patch, which is the iron. In this case, you should vigorously scrape the whole pan, removing protrusions and loose bits of seasoning, then reseason.
+        - *To season the pan*, drizzle #u[\<1 Tbsp] of oil and wipe with a paper towel to leave a thin layer on the business surfaces of the cookware. Cook in an oven at #u[\~400˚F] for one hour, upside down to prevent oil pooling. Repeat this once or twice more.
+      
+      - *Clean and dry it after each use*. Letting water or food waste sit on cast iron can make it rust, which is difficult to correct. Unlike what they might teach you in school, I assure you that cast iron definitely can be cleaned with #i[soap] as the layers of seasoning are very protective.
     ],
   ),
   // recipe(
@@ -275,7 +296,7 @@
     is-vegan: true,
     is-gf: true,
     image-path: "imgs/fried-onions.jpg",
-    image-height: 1fr,
+    image-above: true,
     (
       ([3], [yellow onions], [cut into strips]),
       ([2 Tbsp], [corn starch]),
@@ -338,7 +359,7 @@
     is-vegan: true,
     is-gf: true,
     image-path: "imgs/bouillon-baked-tofu.png",
-    image-height: 1fr,
+    image-above: true,
     adapted-from: "Nov 24 p32",
     (
       ([1], [firm tofu package], [(\~14oz) pressed, cubed, patted dry]),
@@ -372,7 +393,6 @@
     "main",
     "pork and cucumber stir-fry",
     adapted-from: "May 25 p38",
-    is-mgf: true,
     image-path: "imgs/pork-and-cucumber-stir-fry.png",
     (
       ([1 lb], [ground pork]),
@@ -406,7 +426,6 @@
     "main",
     "popover-topped pot pie",
     is-vegetarian: true,
-    is-mgf: true,
     adapted-from: "May 25 p14",
     image-path: "imgs/popover-topped-pot-pie.png",
     (
@@ -447,7 +466,6 @@
     "main",
     "oyakodon (parent and child)",
     adapted-from: "May 25 p18",
-    is-mgf: true,
     image-path: "imgs/oyakodon.png",
     (
       ([1#frac(1, 4) lb], [chicken], [(preferrably thighs, but breast ok)]),
@@ -476,7 +494,6 @@
     "main",
     "cauliflower chowder",
     is-vegetarian: true,
-    is-mgf: true,
     adapted-from: "May 25 p22",
     image-path: "imgs/cauliflower-chowder.png",
     (
@@ -515,7 +532,6 @@
     "main",
     "miso-mayo chicken",
     image-path: "imgs/miso-mayo-chicken.png",
-    is-mgf: true,
     adapted-from: "Nov 24 p12",
     (
       ([2 lb], [chicken breast], [patted dry]),
@@ -583,7 +599,6 @@
   recipe(
     "main",
     "pho",
-    is-mgf: true,
     image-path: "imgs/pho.png",
     adapted-from: "Feb 25 p24",
     (
@@ -618,28 +633,26 @@
   recipe(
     "main",
     "pork and tomatillo udon",
-    is-mgf: true,
     image-path: "imgs/pork-and-tomatillo-udon.png",
     adapted-from: "Feb 25 p84",
     (
       ([1 lb], [ground pork]),
+      ([#half], [cabbage head], [cut into strips]),
       ([1 lb], [cooked udon], [prepared per package instructions]),
+      1,
       ([3 Tbsp], [hoisin sauce]),
       ([1#frac(1,4) cup], [tomatillo salsa]),
       ([2 Tbsp], [butter]),
+      none,
       ([#frac(2,3) cup], [chopped cilantro]),
       ([1], [radish], [thinly sliced]),
     ),
     [
       Heat #u[1 Tbsp] #i[cooking oil] over #u[medium high] in large skillet.
       
-      Add #i[pork], cook #u[3 mins]. 
+      Add #i[pork] and #i[cabbage] and cover. Cook, stirring occasionally, until few pink spots remain in pork and cabbage has softened, #u[\~10 mins].
       
-      Add #i[hoisin sauce], cook #u[2 mins]. 
-      
-      Add #i[salsa], cook #u[1 min].
-
-      Add #i[butter] and #i[udon], cook #u[1 min].
+      Add #g(1), cook until warmed and well-mixed, #u[3 mins].
 
       Remove from heat and mix in #i[cilantro]. Decorate with #i[radish].
     ],
@@ -647,7 +660,6 @@
   recipe(
     "main",
     "baked pasta and sausage",
-    is-mgf: true,
     adapted-from: "Feb 25 p48",
     image-path: "imgs/baked-pasta-with-sausage.png",
     (
@@ -676,7 +688,6 @@
     "main",
     "baked sweet potato chaat",
     adapted-from: "Nov 24 p14",
-    is-mgf: true,
     image-path: "imgs/sweet-potato-chaat.png",
     is-vegetarian: true,
     (
@@ -712,7 +723,6 @@
   recipe(
     "main",
     "miso-tahini & tofu grain bowls",
-    is-mgf: true,
     adapted-from: "Apr 25 p20",
     image-path: "imgs/tofu-grain-bowl.png",
     is-vegan: true,
@@ -755,7 +765,6 @@
     "french onion pasta",
     adapted-from: "Apr 25 p18",
     is-vegetarian: true,
-    is-mgf: true,
     image-path: "imgs/french-onion-pasta.png",
     (
       1,
@@ -791,7 +800,6 @@
     "main",
     "salmon and shiitake rice",
     image-path: "imgs/salmon-shiitake-rice.png",
-    is-mgf: true,
     adapted-from: "Aug 24 p14",
     (
       1,
@@ -866,8 +874,9 @@
   recipe(
     "treat",
     "earl grey sugar cookies",
+    is-vegetarian: true,
     image-path: "imgs/earl-grey-cookies.png",
-    image-height: 1fr,
+    image-above: true,
     (
       1,
       ([#half cup], [butter], [melted]),
@@ -884,9 +893,39 @@
       ([#half tsp], [salt]),
     ),
     [
-      Mix #g(1). Add #g(2), mixing until smooth. Add dries #gg(3) and mix until no dry spots remain. Refrigerate dough for at least #u[30 mins].
+      Mix #g(1). Add #g(2), mixing until smooth. Add dries #gg(3) and mix until no dry spots remain. Refrigerate dough for at least #u[30 mins] to solidify butter.
 
       Preheat oven to #u[325°F]. Roll balls of dough in sugar. Place on sheet with parchment paper. Cookies will spread, leave room between them. Cook #u[12-15 mins], until edges are darkened and set. Allow to sheet cool before serving.
+    ],
+  ),
+  recipe(
+    "treat",
+    "applesauce cookies",
+    image-path: "imgs/applesauce-cookies.png",
+    image-below: true,
+    is-vegetarian: true,
+    (
+      1,
+      ([1 cup], [sugar]),
+      ([1/2 cup], [shortening]),
+      ([2], [eggs]),
+      1,
+      ([1 tsp], [baking soda]),
+      ([1 cup], [applesauce]),
+      3,
+      ([2 3/4 cups], [flour]),
+      ([3/4 tsp], [cinnamon]),
+      ([3/4 tsp], [nutmeg]),
+      ([1/2 tsp], [salt]),
+      none,
+      ([7 oz],[chocolate chips]),
+    ),
+    [
+      Preheat oven to #u[400˚F].
+
+      Combine #g(1), stir until well-mixed. Combine #g(2) in its own bowl to mix, then add to first mixture. Add #g(3) and mix. The dough will be thick but mixable with a spoon. Fold in #i[chocolate chips].
+
+      Add dough to cookie sheet with parchment paper. Cook #u[9-12 mins].
     ],
   ),
   // recipe(
@@ -902,12 +941,9 @@
   // ),
 )
 
-#for i in recipe-types.map(it => [
-  = #it;s
-  #for j in all-recipes.filter(itt => itt.recipe-type == it) {
-    j.image
-    j.content
-  }
+#for i in recipe-types.map(recipe-type => [
+  = #recipe-type;s
+  #for j in all-recipes.filter(recipe => recipe.recipe-type == recipe-type) {j.content}
 ]) { i }
 
 #box()<end>
