@@ -860,6 +860,66 @@
       Cover half of each #i[tortilla] in #i[cheese], add a layer of filling, and another layer of cheese. Fold the tortilla over. Fry at #u[low-medium] heat on both sides with a thin layer of oil in pan until golden.
     ],
   ),
+  recipe(
+    "main",
+    "gado gado",
+    is-vegetarian: true,
+    image-path: "imgs/gado-gado.jpg",
+    adapted-from: "Apr 24",
+    (
+      ([14 oz], [extra-firm tofu], [pressed, cut into #half-in cubes, patted dry]),
+      ([16 oz], [white rice noodles], [wide like linguine]),
+      1,
+      ([#frac(3,4) cup], [creamy peanut butter]),
+      ([3 Tbsp], [lime juice]),
+      ([1#half Tbsp], [garlic chili sauce]),
+      ([3], [cloves garlic], [finely chopped]),
+      ([#half cup], [water]),
+      2,
+      ([#frac(3,4) cup], [brown sugar]),
+      ([#half cup], [soy sauce]),
+      3,
+      ([1], [red onion], [finely chopped]),
+      ([3], [carrots], [cut into matchsticks]),
+      ([1], [bundle cilantro], [tough stems removed]),
+      ([1], [cucumber], [thinly sliced]),
+      ([1 cup], [peanuts], [halves or chopped]),
+    ),
+    [
+      Combine #g(1) in a bowl to make sauce. Mix until mostly homogeneous. Set aside.
+
+      In a skillet on #u[low], mix #g(2), stirring constantly until brown sugar is desolved. Take half of mixture and add to sauce, mixing well. Increasing skillet heat to #u[medium], add #i[tofu cubes] to the remaining half of the mixture, cooking until liquid is absorbed.
+
+      Meanwhile, cook the #i[rice noodles] in boiling water until al dente, #u[\~5 mins]. Soon after draining and lightly rinsing the noodles, add sauce.
+
+      Serve noodles with cooked tofu and #g(3).
+    ],
+  ),
+  recipe(
+    "main",
+    "miso-marinated salmon",
+    image-path: "imgs/miso-marinated-salmon.jpg",
+    (
+      ([1 lb], [salmon filet]),
+      1,
+      ([#frac(1,3) cup], [sake]),
+      ([#frac(1,3) cup], [mirin]),
+      ([#frac(1,3) cup], [white miso]),
+      ([3 Tbsp], [sugar]),
+      ([1 tsp], [salt]),
+      2,
+      ([1 cup], [dried rice], [cooked]),
+      ([3 Tbsp], [rice vinegar]),
+      ([3 g], [dried seaweed], [like seasoned laver, crushed])
+    ),
+    [
+      Combine #g(1) to create a marinade. Reserve some for serving. Marinade #i[salmon] #u[1-2 days] in fridge.
+
+      Scrape the marinade off the salmon to discard. Broil the salmon filets on low-middle rack, cooking #u[8 mins] until tops are slightly charred.
+      
+      Combine #g(2). Serve with salmon and reserved marinade.
+    ],
+  ),
   // recipe(
   //   "main",
   //   "title",
