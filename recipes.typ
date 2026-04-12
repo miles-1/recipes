@@ -125,7 +125,7 @@
   image-above: false,
   image-below: false,
 ) = {
-  assert(recipe-type in recipe-types, message: "bad recipe type >:(")
+  assert(recipe-type in recipe-types, message: "\"" + str(recipe-type) + "\" is bad recipe type >:(")
   let meat-dietary-type = if is-vegan { "vegan" } else if is-vegetarian { "vegetarian" } else { none }
   let gluten-freeable = if is-gf {"gf"} else {none}
   // standard image size: 390x975
@@ -1078,7 +1078,6 @@
     "main",
     "white chicken chili",
     is-gf: true,
-    bon-appetit: false,
     (
       
       ([2 lb], [chicken breast]),
@@ -1104,6 +1103,83 @@
       Cook #u[chicken] breast by your preferred method and shred (TIL try using your Kitchen-Aid to shred the chicken, idk bruv it works, Madi took away the chicken and came back and it was perfectly shredded and I looked in awe and she just pointed at the Kitchen-Aid).
       
       Add a little #i[oil] to a large pan, heat to #u[medium]. Add #i[onion] and cook, stirring frequently, until softened and browned, #u[\~8 mins]. Add #g(1) and cook for another #u[2 mins]. Add #i[chicken broth] and bring to a low boil. Add #g(2) and stir until homogeneous. Add previously-shredded #i[chicken], fold in. Serve with #g(4) as desired.
+    ],
+  ),
+  recipe(
+    "main",
+    "assorted chicken wings",
+    is-gf: true,
+    (
+      ([3 lb], [chicken wings], [patted dry]),
+      ([1 Tbsp], [olive oil]),
+      ([1 Tbsp], [baking powder]),
+      1,
+      ([3 Tbsp], [butter]),
+      ([4], [garlic cloves], [minced]),
+      ([#half tsp], [italian seasoning]),
+      ([#frac(1,4) cup], [parmesan], [grated]),
+      2,
+      ([#frac(1,4) cup], [soy sauce]),
+      ([3 Tbsp], [honey or maple syrup]),
+      ([1 Tbsp], [rice vinegar]),
+      ([1], [garlic clove], [minced]),
+      ([1 tsp], [ginger], [grated]),
+      ([#half tsp], [chili flakes]),
+      3,
+      ([1 tsp], [smoked paprika]),
+      ([1 tsp], [garlic powder]),
+      ([1 tsp], [onion powder]),
+      ([#half tsp], [black pepper]),
+      ([1 tsp], [salt]),
+      ([#half tsp], [dried thyme or oregano]),
+      ([#half tsp], [cumin]),
+    ),
+    [
+      Toss #i[wings] with #i[oil], lightly #i[salt] and #i[pepper]. Add #i[baking powder] for crispy skin. Bake at #u[425°F] for #u[40-45 mins] on wire sheet (flip halfway). Divide cooked wings to finish with one of the following:
+
+      *Garlic Parmesan:* Melt #i[butter], cook #i[garlic] for #u[30 secs], stir in #g(1) remaining items. Toss wings and top with extra #i[parmesan].
+
+      *Sweet Sticky:* Simmer #g(2) for #u[3-4 mins] until thickened. Toss wings in glaze; optionally broil for #u[1-2 mins] to caramelize.
+
+      *Savory Dry Rub:* Toss #i[wings] with #g(3) before cooking. Finish with #i[lemon] squeeze.
+    ],
+  ),
+  recipe(
+    "side",
+    "fermented pureed garlic",
+    (
+      ([], [peeled garlic]),
+      ([2-2.5%], [salt], [by weight of garlic]),
+    ),
+    [
+      Weigh the #i[garlic] to determine #i[salt] requirement (e.g., #u[20-25g] salt per #u[1kg] garlic). 
+
+      Puree #i[garlic] and #i[salt] thoroughly. Pack tightly into a jar, removing air pockets but leaving extra headspace. Use an airlock or burp daily. Ferment at cool room temperature for #u[7-14 days], then refrigerate.
+    ],
+  ),
+  recipe(
+    "side",
+    "granola",
+    is-vegetarian: true,
+    (
+      ([3 cups], [rolled oats]),
+      ([1 cup], [nuts or seeds], [almonds, pecans, pumpkin seeds, etc.]),
+      ([#half tsp], [salt]),
+      ([#half tsp], [cinnamon]),
+      1,
+      ([#frac(1,3) cup], [neutral oil]),
+      ([#frac(1,3) cup], [honey or maple syrup]),
+      ([1 tsp], [vanilla]),
+      ([1], [egg white], [optional, for clusters]),
+      2,
+      ([], [dried fruit]),
+    ),
+    [
+      Preheat oven to #u[325°F]. Mix #i[oats], #i[nuts], #i[salt], and #i[spices]. 
+
+      Warm #i[oil] and #i[sweetener] slightly to combine; stir in #i[vanilla] and #i[egg white]. Pour wet mixture into dry and mix thoroughly. 
+
+      Spread on parchment-lined sheet. Press down firmly for clusters. Bake #u[20-30 mins], stirring once halfway. Let cool completely to crisp up before breaking. Add #g(2) after baking.
     ],
   ),
   // recipe(
