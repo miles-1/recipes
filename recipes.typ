@@ -378,6 +378,68 @@
       Uncover #i[tofu] and sprinkle on #i[corn starch]. Toss to coat. Arrange tofu on prepared sheet, not touching each other. Bake until golden brown and crispy, #u[30-35 mins].
     ],
   ),
+  recipe(
+    "side",
+    "fermented pureed garlic",
+    is-colbreak: false,
+    (
+      ([], [peeled garlic]),
+      ([2-2.5%], [salt], [by weight of garlic]),
+    ),
+    [
+      Weigh the #i[garlic] to determine #i[salt] requirement. 
+
+      Puree #i[garlic] and #i[salt] thoroughly. Pack tightly into a jar, removing air pockets but leaving extra headspace. Use an airlock or burp daily. Ferment at cool room temperature for #u[1-2 weeks] before use.
+    ],
+  ),
+  recipe(
+    "side",
+    "granola",
+    is-vegetarian: true,
+    is-gf: true,
+    (
+      ([3 cups], [rolled oats]),
+      1,
+      ([1 cup], [nuts or seeds], [almonds, pecans, pumpkin seeds, etc.]),
+      ([#half tsp], [salt]),
+      ([#half tsp], [cinnamon]),
+      none,
+      ([#frac(1,3) cup], [oil], [neutral type, like canola]),
+      ([#frac(1,3) cup], [honey or maple syrup]),
+      ([1 tsp], [vanilla]),
+      ([1], [egg white], [optional for clumping]),
+    ),
+    [
+      Preheat oven to #u[325°F]. Mix #g(1). 
+
+      Warm #i[oil] and #i[sweetener] slightly to combine; stir in #i[vanilla] and #i[egg white]. Pour wet mixture into dry and mix thoroughly. 
+
+      Spread on parchment-lined sheet. Press down firmly for clusters. Bake #u[20-30 mins], stirring once halfway. Let cool completely to crisp up before breaking.
+    ],
+  ),
+  recipe(
+    "side",
+    "energy bites",
+    is-vegetarian: true,
+    is-gf: true,
+    is-colbreak: false,
+    (
+      1,
+      ([2 cups], [rolled oats]),
+      ([1/2 cup], [ground flax seeds]),
+      ([2 Tbsp], [chia seeds]),
+      2,
+      ([1 cup], [creamy peanut butter]),
+      ([1/2 cup], [honey]),
+    ),
+    [
+      In a large bowl, stir together #g(1).
+
+      Combine #g(2). microwave for #u[20 secs] before pouring into dries. Mix thoroughly.
+
+      Pack into container and refridgerate for at lest #u[30 mins]. Cut into chunks.
+    ],
+  ),
   // recipe(
   //   "side",
   //   "title",
@@ -1141,45 +1203,7 @@
 
       *Sweet Sticky:* Simmer #g(2) for #u[3-4 mins] until thickened. Toss wings in glaze; optionally broil for #u[1-2 mins] to caramelize.
 
-      *Savory Dry Rub:* Toss #i[wings] with #g(3) before cooking. Finish with #i[lemon] squeeze.
-    ],
-  ),
-  recipe(
-    "side",
-    "fermented pureed garlic",
-    (
-      ([], [peeled garlic]),
-      ([2-2.5%], [salt], [by weight of garlic]),
-    ),
-    [
-      Weigh the #i[garlic] to determine #i[salt] requirement (e.g., #u[20-25g] salt per #u[1kg] garlic). 
-
-      Puree #i[garlic] and #i[salt] thoroughly. Pack tightly into a jar, removing air pockets but leaving extra headspace. Use an airlock or burp daily. Ferment at cool room temperature for #u[7-14 days], then refrigerate.
-    ],
-  ),
-  recipe(
-    "side",
-    "granola",
-    is-vegetarian: true,
-    (
-      ([3 cups], [rolled oats]),
-      ([1 cup], [nuts or seeds], [almonds, pecans, pumpkin seeds, etc.]),
-      ([#half tsp], [salt]),
-      ([#half tsp], [cinnamon]),
-      1,
-      ([#frac(1,3) cup], [neutral oil]),
-      ([#frac(1,3) cup], [honey or maple syrup]),
-      ([1 tsp], [vanilla]),
-      ([1], [egg white], [optional, for clusters]),
-      2,
-      ([], [dried fruit]),
-    ),
-    [
-      Preheat oven to #u[325°F]. Mix #i[oats], #i[nuts], #i[salt], and #i[spices]. 
-
-      Warm #i[oil] and #i[sweetener] slightly to combine; stir in #i[vanilla] and #i[egg white]. Pour wet mixture into dry and mix thoroughly. 
-
-      Spread on parchment-lined sheet. Press down firmly for clusters. Bake #u[20-30 mins], stirring once halfway. Let cool completely to crisp up before breaking. Add #g(2) after baking.
+      *Savory Dry Rub:* Toss #i[wings] with #g(3) before cooking.
     ],
   ),
   // recipe(
