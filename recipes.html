@@ -9,15 +9,21 @@
         padding: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden;   /* key line */
+        overflow: hidden;
       }
       embed {
         width: 100%;
         height: 100%;
       }
     </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const embed = document.createElement('embed');
+        embed.src = `recipes.pdf?t=${Date.now()}`;
+        embed.type = 'application/pdf';
+        document.body.appendChild(embed);
+      });
+    </script>
   </head>
-  <body>
-    <embed src="recipes.pdf" type="application/pdf">
-  </body>
+  <body></body>
 </html>

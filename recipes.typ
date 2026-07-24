@@ -108,7 +108,7 @@
 }
 
 // recipe function
-#let recipe-types = ("outline", "note", "side", "main", "treat")
+#let recipe-types = ("outline", "note", "side", "main", "baked good")
 #let recipe-type-symbols = ("icons/hat.svg", "icons/shakers.svg", "icons/pin.svg", "icons/dish.svg", "icons/toaster.svg")
 #let recipe(
   recipe-type,
@@ -380,16 +380,16 @@
   ),
   recipe(
     "side",
-    "fermented pureed garlic",
+    "fermented garlic",
     is-colbreak: false,
     (
       ([], [peeled garlic]),
-      ([2-2.5%], [salt], [by weight of garlic]),
+      ([2.5-3%], [salt], [by weight of garlic]),
     ),
     [
       Weigh the #i[garlic] to determine #i[salt] requirement. 
 
-      Puree #i[garlic] and #i[salt] thoroughly. Pack tightly into a jar, removing air pockets but leaving extra headspace. Use an airlock or burp daily. Ferment at cool room temperature for #u[1-2 weeks] before use.
+      Puree #i[garlic] and #i[salt] thoroughly. Pack tightly into a jar, removing air pockets but leaving extra headspace, will expand slightly. Ferment at room temperature for #u[1-2 weeks] before use. Can turn all sorts of colors at first, including green or blue, but settles into dark orange when ready.
     ],
   ),
   recipe(
@@ -475,13 +475,13 @@
     [
       Form #i[pork] into several patties, season lightly with salt. Set aside.
 
-      Toss #i[cucumber] with #i[salt] #gg(1) in medium bowl. Let sit until cucumber starts releasing its water, about #u[10 mins]. While waiting, mix wets #gg(2) to make sauce, set aside\*.
+      Toss #i[cucumber] with #i[salt] #gg(1) in medium bowl. Let sit until cucumber starts releasing its water, about #u[10 mins]. While waiting, mix wets #gg(2) to make sauce, set sauce aside.
 
       Rinse, drain and pat dry #i[cucumber]. Heat #u[1 Tbsp] oil in large skillet at #u[medium-high] and cook, tossing frequently, until lightly browned. Remove and set aside.
 
       Cook #i[pork] patties in skillet until deeply browned on both sides, about #u[5 mins] per side. Break up into bite-sized pieces and add seasonings #gg(3), cook another #u[1-2 mins].
 
-      Add #i[cucumber] and \*reserved sauce to skillet, cook #u[\~1 min]. Add cooked #i[rice] on top.
+      Add #i[cucumber] and reserved sauce to skillet, cook #u[\~1 min]. Add cooked #i[rice] on top.
     ],
   ),
   recipe(
@@ -543,7 +543,7 @@
       ([5], [eggs], [blended]),
     ),
     [
-      Mix #i[dashi] and #u[1#half cup] hot water in a skillet until dissolved. Add #g(1) and immmer on #u[medium-high] until onion is slightly softened and liquid slightly reduced, #u[6-8 mins].
+      Mix #i[dashi] and #u[1#half cup] hot water in a skillet until dissolved. Add #g(1) and simmer on #u[medium-high] until onion is slightly softened and liquid slightly reduced, #u[6-8 mins].
 
       Add #i[chicken] and #i[pale green onion] to pan. Cook until chicken is not pink on the outside, for #u[2-3 mins].
 
@@ -614,11 +614,11 @@
       ([2 tsp], [sesame seeds]),
     ),
     [
-      Preheat oven to #u[425°F], rack in middle. Whisk #g(1), use to coat #i[chicken]. Arrange veggies #gg(2) on baking sheet with parchment paper, salt and drizzle #u[\~1 Tbsp] #i[oil]. Place #i[chicken] on top of veggies, roast #u[13-16 mins]. Meanwhile, mix #g(3) to create sauce for serving\*.
+      Preheat oven to #u[425°F], rack in middle. Whisk #g(1), use to coat #i[chicken]. Arrange veggies #gg(2) on baking sheet with parchment paper, salt and drizzle #u[\~1 Tbsp] #i[oil]. Place #i[chicken] on top of veggies, roast #u[13-16 mins]. Meanwhile, mix #g(3) to create sauce for serving.
 
       Leaving chicken in oven, turn on #u[broil]. Cook till veggies are tender with some charring and chicken is cooked through and well-browned, #u[9-12 mins].
       
-      Cut chicken into strips, and add #u[2 Tbsp] #i[rice vinegar] to veggies if desired. Top rice with veggies, chicken, \*prepared sauce, and sesame seeds.
+      Cut chicken into strips, and add #u[2 Tbsp] #i[rice vinegar] to veggies if desired. Top rice with veggies, chicken, prepared sauce, and sesame seeds.
     ],
   ),
   recipe(
@@ -678,7 +678,7 @@
       ([32 oz], [low-sodium chicken broth]),
       2,
       ([1], [bean sprout package]),
-      ([1], [cilantro bunch]),
+      ([1 bunch], [cilantro]),
       ([2], [jalapeño], [sliced]),
       ([], [hoisin sauce]),
       ([], [sriracha]),
@@ -760,7 +760,7 @@
       ([1#half Tbsp], [chaat masala]),
       ([#frac(1,4) cup], [olive oil#mult]),
       2,
-      ([1], [cilantro bunch]),
+      ([1 bunch], [cilantro]),
       ([2], [jalapeño], [stem cut off]),
       ([4-6], [green onions]),
       ([#frac(1,4) cup], [lime juice]),
@@ -801,7 +801,7 @@
       none,
       ([1 Tbsp], [soy sauce]),
       3,
-      ([2], [broccoli bunches], [cut into florets with long stems]),
+      ([2], [broccoli heads], [cut into florets with long stems]),
       ([1 tsp], [red pepper flakes]),
       4,
       ([3 cup], [miso]),
@@ -871,7 +871,7 @@
       ([2 tsp], [soy sauce#mult]),
       none,
       ([5 oz], [shiitake mushrooms], [thinly sliced]),
-      ([1 lb], [skinless salmon fillets]),
+      ([1 lb], [skinless salmon filets]),
       2,
       ([4 Tbsp], [rice vinegar]),
       ([2 Tbsp], [sesame oil], [(preferrably toasted)]),
@@ -965,7 +965,7 @@
     image-path: "imgs/green-chicken-chutney.png",
     (
       1,
-      ([1], [cilantro bunch], [(medium size) coarsely chopped with stems]),
+      ([1 bunch], [cilantro], [coarsely chopped with stems]),
       ([4], [garlic cloves]),
       ([1], [jalapeño], [stem removed]),
       ([#half cup], [mint leaves], [when tightly packed]),
@@ -1030,7 +1030,7 @@
       ([#half Tbsp], [ground cumin]),
       ([#half Tbsp], [salt]),
       2,
-      ([1], [cilantro bunch], [tough stems removed, well rinsed]),
+      ([1 bunch], [cilantro], [tough stems removed, well rinsed]),
       ([1], [yellow onion], [roughly chopped]),
       ([1], [green bell pepper], [stem and seeds removed, chopped]),
       ([6], [garlic cloves]),
@@ -1042,11 +1042,11 @@
       ([1], [lime], [in slices]),
     ),
     [
-      Mix #g(1) and use to coat #i[chicken], set aside. Blend #g(2) until mostly smooth, set aside\*. Preheat oven to #u[375˚F]. 
+      Mix #g(1) and use to coat #i[chicken], set aside. Blend #g(2) until mostly smooth, set purée aside. Preheat oven to #u[375˚F]. 
 
       Heat #i[oil] in large oven-proof skillet over #u[medium-high]. Working in batches if needed, cook #i[chicken] in a single layer, just one side, until it is deeply brown underneath but still raw on top, #u[6-8 mins]. Set aside.
 
-      Cook \*reserved purée on same skillet goddamit at #u[medium] heat. Continue until it reduces to a tomato-paste-like texture, #u[6-8 mins]. Add #g(3) and #u[1#half cup] #i[water], mix and bring to a simmer, then remove from heat. Place half-cooked chicken, browned side up, over the mixture. Cover skillet with foil and place in oven for #u[45 mins]. Let it be the whole time, don't check it. Turn off oven, but leave in the oven for #u[10 mins].
+      Cook reserved purée on same skillet goddamit at #u[medium] heat. Continue until it reduces to a tomato-paste-like texture, #u[6-8 mins]. Add #g(3) and #u[1#half cup] #i[water], mix and bring to a simmer, then remove from heat. Place half-cooked chicken, browned side up, over the mixture. Cover skillet with foil and place in oven for #u[45 mins]. Let it be the whole time, don't check it. Turn off oven, but leave in the oven for #u[10 mins].
 
       Serve with #g(4).
     ],
@@ -1085,6 +1085,215 @@
       Steam rolls, in batches if necessary, for #u[11-13 mins]. Mix #g(2) to make sauce and serve.
     ],
   ),
+  recipe(
+    "main",
+    "japanese curry",
+    image-path: "imgs/japanese-curry.png",
+    adapted-from: "Nov 25 p24",
+    is-vegan: true,
+    (
+      1,
+      ([1 Tbsp], [cooking oil#mult]),
+      ([8 oz], [mushrooms], [any kind or mix]),
+      2,
+      ([1 Tbsp], [cooking oil#mult]),
+      ([1 oz], [large onion], [finely chopped]),
+      ([1 cup], [carrot], [sliced]),
+      ([2], [celery stalks], [sliced]),
+      3,
+      ([3], [garlic cloves], [finely chopped]),
+      ([1"], [piece ginger], [finely grated]),
+      none, 
+      ([2 Tbsp], [better-than-boullion vegetable base], [added to 6 cups hot water]),
+      ([12 oz], [winter squash], [peeled, seeds removed, cut to 1" pieces]),
+      ([2.5 cubes], [S&B golden curry mix]),
+      4,
+      ([2 tsp], [garam masala]),
+      ([1 Tbsp], [honey]),
+      5,
+      ([1 bunch], [green onions], [sliced]),
+      ([1 cup], [dry rice], [cooked]),
+    ),
+    [
+      Add #g(1) to large skillet over #u[medium-high]. Cook until mushrooms are golden brown, #u[\~5 mins]. Transfer to plate for later.
+
+      Add #g(2) to skillet. Cook until onions are softened, #u[\~10 mins]. Add #g(3) and cook, stirring, #u[\~2 mins]. Add #i[hydrated vegetable base] to skillet. Bring to a boil, then reduce heat to bring to a simmer. Add #i[squash] and return mushrooms. Cook until liquid has reduced somewhat and vegetables are very tender, #[\~25-30 mins].
+
+      From skillet, add broth to small bowl. Crumble #i[curry mix cubes] into it. Mix with fork until dissolved. Add back to skillet, along with #g(4), simmering, stirring occasionally, #u[5-10 mins], until slightly thickened. Serve with 
+      #g(5).
+    ],
+  ),
+  recipe(
+    "main",
+    "pork and snap pea stirfry",
+    image-path: "imgs/gingery-pork-snap-pea-stir-fry.png",
+    is-gf: true,
+    adapted-from: "Spring 26 p16",
+    (
+      1,
+      ([1lb], [pork tenderloin], [sliced crosswise against the grain at #half-in]),
+      ([2 Tbsp], [cornstarch]),
+      ([1 Tbsp], [soy sauce#mult]),
+      2,
+      ([2"], [ginger piece], [finely grated]),
+      ([#frac(1,4) cup], [oyster sauce]),
+      ([1 Tbsp], [sugar]),
+      ([1 Tbsp], [toasted sesame oil]),
+      ([1 Tbsp], [white vinegar]),
+      ([2 Tbsp], [soy sauce#mult]),
+      none,
+      ([8 oz], [sugar snap peas]),
+      ([1], [large yellow onion], [sliced into #half-in rings]),
+      ([6], [garlic cloves], [finely chopped]),
+      ([1 cup], [dry rice], [cooked]),
+    ),
+    [
+      Add #g(1) to bowl plus #u[1 Tbsp] #i[oil]. Toss with your hands until well-coated. Cover and let sit #u[15 mins].
+
+      Heat #u[2 Tbsp] #i[oil] in large pan at #u[medium-high], until almost smoking. Add pork in single layer. Cook undisturbed, #u[5 min], until golden brown (won't be fully cooked through yet). Oil will spatter, stand back. Transfer cooked pork to plate for later.
+
+      Add a little oil to pan if bare. Cook #i[peas], stirring, until tender and blistered in spots, #u[\~3 mins]. Transfer to plate for later.
+      
+      Add a little oil to pan if bare. 
+      Cook #i[onions], tossing occasionally, until blistered in spots, #u[\~4 mins]. Add #u[garlic], cook, #u[1 min]. Return pork and peas to pan, add sauce. Cook, stirring, until meat is cooked through and sauce is clingling to meat and veggies, #u[\~1 min]. Serve with #i[rice].
+
+    ],
+  ),
+  recipe(
+    "main",
+    "pad kra pao",
+    image-path: "imgs/pad-kra-pow.png",
+    is-gf: true,
+    adapted-from: "Jun 25 p22",
+    (
+      1,
+      ([3 Tbsp], [soy sauce]),
+      ([1 Tbsp], [fish sauce]),
+      ([2 tsp], [oyster sauce]),
+      ([1 tsp], [sugar]),
+      none,
+      ([4], [eggs]),
+      ([3], [green onions], [thinly sliced]),
+      2,
+      ([5], [jalapeños], [seeds and stem removed, finely chopped]),
+      ([4], [garlic cloves], [finely chopped]),
+      none,
+      ([1 lb], [ground pork]),
+      ([1], [bunch basil], [stems removed]),
+      ([1 cup], [dry rice], [cooked]),
+    ),
+    [
+      Combine #g(1) with #u[3 Tbsp] #i[water]. Set sauce aside.
+
+      Cook #i[eggs] sunny-side up. Add oil for crispy edges. If using oil, spoon hot oil over eggs to cook tops. Move eggs to plate.
+
+      cook #i[green onions] on #u[medium-high] until softened, #u[1-2 mins]. Add #g(2) and cook, stirring, #u[\~1 min]. Add #i[pork] and cook, stirring and breaking up meat,  until starting to brown, #u[2-3 mins]. Add sauce and cook, stirring, until liquid is evaporated, #u[\~5 mins]. Remove from heat, stir in #i[basil] until wilted. Serve with #i[rice].
+    ],
+  ),
+  recipe(
+    "main",
+    "soy-glazed salmon bowl",
+    image-path: "imgs/soy-glazed-salmon-bowl.png",
+    adapted-from: "Aug 25 p20",
+    (
+      1,
+      ([1"], [ginger piece], [finely grated]),
+      ([2], [garlic cloves], [finely grated]),
+      ([#frac(1,4) cup], [rice vinegar]),
+      ([1 Tbsp], [olive oil#mult]),
+      ([1 tsp], [salt]),
+      none, 
+      ([12 oz], [green beans], [trimmed, halved crosswise]),
+      ([1 cup], [cherry tomatoes], [quartered]),
+      ([1-1.5 lb], [skinless salmon filets], [cut to 1" pieces]),
+      ([1 Tbsp], [olive oil#mult]),
+      2,
+      ([3 Tbsp], [soy sauce]),
+      ([2 Tbsp], [honey]),
+      none,
+      ([1 cup], [dry rice], [cooked]),
+      ([], [sesame seeds]),
+    ),
+    [
+      Mix #g(1) in bowl. Set sauce aside.
+
+      Cook #i[beans] in medium pot of boiling salted water until crisp-tender, #u[\~2 mins]. Drain and add sauce and #i[tomatoes]. Set aside.
+
+      Pat #i[salmon] dry, salt, and add to medium bowl. Heat #u[1 Tbsp] #i[oil] in pan at #u[medium-high]. Add salmon and cook undisturbed, #u[\~2 mins]. Add #g(2) and cook, tossing often, until salmon is coated and cooked through, #u[2-3 mins].
+
+      Serve with veggies, #i[rice], and #i[sesame seeds].
+    ],
+  ),
+  recipe(
+    "main",
+    "pork dumpling tomatoes",
+    image-path: "imgs/pork-dumpling-baked-tomatoes.png",
+    is-gf: true,
+    adapted-from: "Aug 25 p63",
+    (
+      ([8-10], [large beefsteak or on-the-vine tomatoes]),
+      1,
+      ([2], [eggs]),
+      ([2"], [ginger piece], [finely grated]),
+      ([4], [garlic cloves], [finely grated]),
+      ([1 lb], [ground pork]),
+      ([1#frac(1,3) cups], [panko]),
+      ([1 Tbsp], [olive oil]),
+      ([4], [green onions], [thinly sliced]),
+      ([1 Tbsp], [soy sauce#mult]),
+      ([#half tsp], [salt]),
+      2,
+      ([2 Tbsp], [soy sauce#mult]),
+      ([1 Tbsp], [chili crisp]),
+      ([1 Tbsp], [rice vinegar]),
+      ([1 tsp], [sesame oil]),
+    ),
+    [
+      Place rack in middle of oven, preheat to #u[400˚F].
+
+      Slice tops off #i[tomatoes], reserve for later. Scoop out cores, saving seeds and pulp but discarding fibrous portions. Arrange open-topped tomatoes in 13$times$9 baking pan.
+
+      Place #g(1) and #u[1/3 cup] of saved tomato seeds/pulp in bowl. Mix gently with hands. Add filling to tomatoes and add tops back on. If there is leftover filling, form it into a log and wrap with tin foil, and place alongside tomatoes in pan. Bake until instant-read thermometer shows #u[160˚F] deep inside tomatoes, #u[\~45 mins].
+
+      Mix #g(2). Drizzle over finished tomatoes and serve.
+    ],
+  ),
+  recipe(
+    "main",
+    "cilantro pesto pasta",
+    image-path: "imgs/cilantro-pesto-pasta.png",
+    is-vegetarian: true,
+    adapted-from: "Aug 25 p81",
+    (
+      ([1 bunch], [cilantro], [rinsed, stem ends trimmed]),
+      1,
+      ([2 tsp], [salt], [(see pumpkin seeds instruction)]),
+      ([1], [serrano chile or jalapeño], [stem and seeds removed]),
+      ([4], [garlic cloves], [finely grated]),
+      ([#half cup], [olive oil]),
+      ([#frac(3,4) cup], [Cotija cheese], [crumbled, plus more for serving]),
+      ([2 Tbsp], [lime juice]),
+      ([#frac(1,4) cup], [roasted pumpkin seeds], [if salted, omit salt above]),
+      none,
+      ([1 lb], [spaghetti]),
+      ([3 Tbsp], [butter]),
+    ),
+    [
+      Blanche #i[cilantro] (i.e., add to salted boiling water #u[45 sec], then dunk in ice water #u[1 min]) in medium pot. Don't throw out water. Squeeze out excess water with your hands. Coarsely chop. Add it, along with #g(1), to blender. Blend, adding small amounts of water if necessary, until mostly smooth, but some texture remains. Set pesto aside.
+
+      Cook pasta in cilantro blanche water until al dente. Save #u[2 cups] of the pasta water before draining. Add drained pasta to bowl with #i[butter] and pesto. Toss, adding some reserved water thin out sauce enough to coat noodles. Top with more #i[cheese] and serve.
+    ],
+  ),
+  // recipe(
+  //   "main",
+  //   "",
+  //   image-path: "imgs/pork-and-shrimp-cabbage-rolls.png",
+  //   adapted-from: "Mar 25 p75",
+  //   (
+  //   ),
+  //   [
+  //   ],
+  // ),
   recipe(
     "main",
     "miso-marinated salmon",
@@ -1218,7 +1427,7 @@
   //   ],
   // ),
   recipe(
-    "treat",
+    "baked good",
     "earl grey sugar cookies",
     is-vegetarian: true,
     image-path: "imgs/earl-grey-cookies.png",
@@ -1245,7 +1454,7 @@
     ],
   ),
   recipe(
-    "treat",
+    "baked good",
     "applesauce cookies",
     image-path: "imgs/applesauce-cookies.png",
     image-below: true,
@@ -1274,10 +1483,102 @@
       Add dough to cookie sheet with parchment paper. Cook #u[9-12 mins].
     ],
   ),
+  recipe(
+    "baked good",
+    "true sourdough",
+    is-vegan: true,
+    (
+      1,
+      ([500 g], [bread flour]),
+      ([350-375 g], [warm water], [at the lower end if in humid environment]),
+      none,
+      ([100 g], [sourdough starter], [fully active and bubbly]),
+      ([10 g], [salt])
+    ),
+    [
+      This recipe takes #u[24 hrs] or more from start to finish.
+
+      Mix #g(1) in a medium-large bowl using a fork, then with hands, until well-mixed. Cover for #u[30 mins], allowing flour to hydrate. Gluten matrix will begin to form within dough.
+
+      Squish in #i[starter] with your hands until encorporated. Cover for #u[10 mins].
+
+      Add #i[salt] with a splash of water (to help dissolve). Squeeze dough until dough doesn't feel grainy from the salt any more and the dough. You will feel the dough toughen in your hands.
+
+      Cover, placing in not-running microwave with a glass of hot water to maintain a warm temperature. After #u[30 mins], perform 4 strech-and-folds (i.e., wet fingers, grab one side of dough and pull upwards, fold over the top, then rotate bowl 90deg and repeat 3 more times). Do not knead the dough. Repeat this process, performing 4 total sets of stretch-and-folds over the course of #u[2 hrs].
+
+      Cover, again using microwave as described above, allowing to rise for an additional #u[2-4 hrs] to increase in volume by \~50%. The dough will have surface bubbles and will feel lighter.
+
+      Tip the dough onto a lightly-floured surface. Fold four sides inwards, which will make that side the "seam side" (eventual bottom of loaf). Flip over so the "smooth side" (eventual top of loaf) is facing upwards. Placing your hands on the sides of the dough, drag dough across the table. If too sticky, turn the dough in-place. This will visibly pull the dough downwards towards the seam side, forming a taught surface, which helps the final loaf hold its shape and makes scoring dough easier later. Let the doug sit uncovered for #u[20 mins].
+
+      While waiting, rub a lot of flour into a flat-weave towel (not a fuzzy or kitchen towel). Use it to line a round bowl about 50% larger than the dough, which makes your proofing basket.
+
+      Using pastry knife if necessary, lift dough from counter and flip, smooth side-down. Again fold the sides into the seam side. Place the dough seam-side up into the proofing basket. Cover with cling film or well-fit pot lid and place in fridge, #u[12-16 hrs]. 
+
+      Preheat a round dutch oven with a lid in the oven at #u[450˚F] for at least #u[45 mins]. Tip the cold dough onto parchment paper, score a deep line across the top using a razor blade (which works better than a knife). Lower parchment paper into hot dutch oven and bake, covered, #u[20 mins]. Then, remove lid and bake for another #u[20-25 mins]. Remove once crust is deeply browned, but not charred.
+
+      Remove loaf from dutch oven and place on a wire rack. Allow to cool for at least #u[4 hrs] before cutting into the bread. 
+    ],
+  ),
+  recipe(
+    "baked good",
+    "hybrid sourdough",
+    is-vegan: true,
+    (
+      1,
+      ([8 g], [active dry yeast]),
+      ([375-390 g], [warm water], [at the lower end if in humid environment]),
+      2,
+      ([500 g], [bread flour]),
+      ([12 g], [salt]),
+      ([100 g], [sourdough starter discard], [hooch retained for increased sour taste]),
+    ),
+    [
+      This recipe takes about #u[8 hrs] from start to finish. The dry yeast does virtually all the rising, and the sourdough starter mostly just contributes acid. Read over true sourdough recipe above if you are unfamiliar with some terms.
+
+      Mix #g(1). Let sit for #u[10 mins] to allow yeast to activate. Add in #g(2) and mix with fork, then squish with hands, until no flour pockets remain.
+      
+      Cover, and use microwave rising method. After #u[30 mins], perform 4 stretch-and-folds. Do not knead. Repeat this process 3 or 4 times, until dough has doubled in size.
+
+      Meanwhile, heat dutch oven and lid in oven at #u[430˚F] for at least #u[45 mins].
+
+      After final stretch-and-fold, place dough on lightly floured surface and drag dough to build surface tension. Place on parchment paper and score with a razor. Lift dough into hot dutch oven. Bake, covered, #u[30 mins]. Remove lid, bake an additional #u[18 mins].
+
+      Remove loaf from dutch oven and place on a wire rack. Allow to cool for at least #u[4 hrs] before cutting into the bread.
+    ],
+  ),
+  recipe(
+    "baked good",
+    "sourdough discard biscuits",
+    is-vegetarian: true,
+    (
+      1,
+      ([120 g], [all-purpose flour]),
+      ([1#half tsp], [baking powder]),
+      ([#frac(1,4) tsp], [baking soda]),
+      ([#frac(1,2) tsp], [sea salt]),
+      none,
+      ([4 Tbsp], [unsalted butter], [cold, cut into cubes]),
+      2,
+      ([100 g], [sourdough starter discard]),
+      ([18 g], [plain greek yogurt]),
+      ([18 g], [milk]),
+    ),
+    [
+      Preheat oven to #u[425˚F]. Line a baking sheet with parchment paper.
+
+      Mix #g(1) in a large bowl until homogenized. Add #i[butter], working butter into dries until butter chunks are about the size of small peas.
+      
+      Separately, in a small bowl, mix #g(2), then add to large bowl. Stir dough gently with fork, just until a shaggy dough forms. If it is too dry to hold together, add a splash of water. Do not overmix.
+
+      Turn the dough onto a lightly-floured surface. Pat down into a rectangle. Fold the dough in thirds, like a letter. Rotate 90deg and repeat this patting-down and folding, a total of 4 times.
+
+      Pat down dough to be about #u[1 in]. Use a pastry knife to cut into desired shapes. Arrange on baking sheet so they are just touching. Bake #u[12-15 mins], until tops are golden brown.
+    ],
+  ),
   // recipe(
-  //   "treat",
-  //   "title",
-  //   adapted-from: "May 25 p38",
+  //   "baked good",
+  //   "true sourdough",
+  //   is-vegan: true,
   //   (
   //     ([1 lb], [ground pork], [wow]),
   //   ),
@@ -1287,9 +1588,9 @@
   // ),
 )
 
-#for i in recipe-types.map(recipe-type => [
+#for recipe-type in recipe-types {[
   = #recipe-type;s
   #for j in all-recipes.filter(recipe => recipe.recipe-type == recipe-type) {j.content}
-]) { i }
+]}
 
 #box()<end>
