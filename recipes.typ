@@ -874,7 +874,7 @@
       ([1 lb], [skinless salmon filets]),
       2,
       ([4 Tbsp], [rice vinegar]),
-      ([2 Tbsp], [sesame oil], [(preferrably toasted)]),
+      ([2 Tbsp], [toasted sesame oil]),
       ([5 Tbsp], [soy sauce#mult]),
       ([5], [green onions], [sliced])
     ),
@@ -1067,14 +1067,14 @@
       ([3 Tbsp], [soy sauce]),
       ([#frac(3,2) tsp], [salt]),
       ([1 Tbsp], [sugar]),
-      ([1 Tbsp], [toasted sesame oil]),
+      ([1 Tbsp], [toasted sesame oil#mult]),
       2,
       ([2 tsp], [ginger powder]),
       ([2 tsp], [garlic powder]),
       ([#frac(1,4) cup], [soy sauce]),
       ([#frac(1,4) cup], [rice vinegar]),
       ([1 Tbsp], [sugar]),
-      ([#frac(1,2) tsp], [toasted sesame oil]),
+      ([#frac(1,2) tsp], [toasted sesame oil#mult]),
       
     ),
     [
@@ -1246,7 +1246,7 @@
       ([2 Tbsp], [soy sauce#mult]),
       ([1 Tbsp], [chili crisp]),
       ([1 Tbsp], [rice vinegar]),
-      ([1 tsp], [sesame oil]),
+      ([1 tsp], [toasted sesame oil]),
     ),
     [
       Place rack in middle of oven, preheat to #u[400˚F].
@@ -1544,6 +1544,8 @@
       After final stretch-and-fold, place dough on lightly floured surface and drag dough to build surface tension. Place on parchment paper and score with a razor. Lift dough into hot dutch oven. Bake, covered, #u[30 mins]. Remove lid, bake an additional #u[18 mins].
 
       Remove loaf from dutch oven and place on a wire rack. Allow to cool for at least #u[4 hrs] before cutting into the bread.
+
+      _Augmentation for sandwich bread:_ Reduce hydration to 65-70% and add 2% butter.
     ],
   ),
   recipe(
